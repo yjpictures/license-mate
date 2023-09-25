@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "flask-license-manager"
+version = "0.1.0"
+description = "Flask based license manager that uses MongoDB"
+authors = ["Yash Jain <yashjain@mail.com>"]
+license = "GPL-3.0 license"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Flask = "^2.3.3"
+Flask-Cors = "^4.0.0"
+
+
+[tool.poetry.group.prod.dependencies]
+gunicorn = "^21.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
