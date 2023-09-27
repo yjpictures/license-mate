@@ -89,6 +89,10 @@ def start():
 def docs():
 	return auto_doc.html(title='Flask License Manager API Documentation', author='Yash Jain'), 200
 
+@app.route("/health")
+def health():
+	return 'OK', 200
+
 @app.errorhandler(Exception)
 def page_not_found(e):
 		try:
@@ -98,5 +102,5 @@ def page_not_found(e):
 
 @app.before_request
 def only_json():
-		if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css']:
+		if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css', '/health']:
 				abort(406, 'This server only accepts JSON')
