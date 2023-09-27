@@ -20,16 +20,16 @@ users = {
 }
 
 @auth.verify_password
-def verify_password(username, password):
+def verifyPassword(username, password):
 	if username in users and check_password_hash(users.get(username), password): # type: ignore
 		return username
 	
 @auth.get_user_roles
-def get_user_roles(user):
+def getUserRoles(user):
 	return user
 
 @auth.error_handler
-def auth_error(status):
+def authError(status):
 	return {'message': 'You do not have access'}, status
 
 @app.route("/api/v1/create", methods=['POST'])
@@ -118,24 +118,39 @@ def showDatabase():
 
 @app.route("/")
 def start():
+	"""
+	This is for home directory. It is set to redirect to docs page.
+	"""
 	return redirect(url_for('docs'))
 
 @app.route("/api/v1/docs")
 def docs():
+	"""
+	This is for docs html.
+	"""
 	return auto_doc.html(title='Flask License Manager API Documentation', author='Yash Jain'), 200
 
 @app.route("/health")
 def health():
+	"""
+	This is for health check. Always replies 200 OK.
+	"""
 	return 'OK', 200
 
 @app.errorhandler(Exception)
-def page_not_found(e):
-		try:
-			return {'message': str(e)}, e.code
-		except:
-			return {'message': str(e)}, 500
+def handleError(e):
+	"""
+	This is for handing errors.
+	"""
+	try:
+		return {'message': str(e)}, e.code
+	except:
+		return {'message': str(e)}, 500
 
 @app.before_request
-def only_json():
-		if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css', '/health']:
-				abort(406, 'This server only accepts JSON')
+def onlyJSON():
+	"""
+	This is to make sure we only accept JSON.
+	"""
+	if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css', '/health']:
+		abort(406, 'This server only accepts JSON')
