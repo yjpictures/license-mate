@@ -14,6 +14,10 @@ class MongoDB:
 		self.uri = str(os.getenv('MONGODB_URI'))
 		self.dbName = str(os.getenv('FLASK_ENV'))
 		self.licenseLength = int(os.getenv('LICENSE_LEN')) # type: ignore
+		self.adminPWD = str(os.getenv('ADMIN_PWD'))
+		self.managerPWD = str(os.getenv('MANAGER_PWD'))
+		self.clientPWD = str(os.getenv('CLIENT_PWD'))
+		# TODO: error handling if these passwords not present
 		if not (self.uri  and self.dbName and self.licenseLength):
 			raise Exception('Cannot find "MONGODB_URI" AND/OR "FLASK_ENV" AND/OR "LICENSE_LEN" in .env file')
 		# config file

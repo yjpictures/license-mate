@@ -15,6 +15,8 @@ python-dotenv = "^1.0.0"
 pyyaml = "^6.0.1"
 flask-selfdoc = "^1.4.0"
 pandas = "^2.1.1"
+flask-httpauth = "^4.8.0"
+werkzeug = "^2.3.7"
 
 [tool.poetry.group.prod.dependencies]
 gunicorn = "^21.2.0"

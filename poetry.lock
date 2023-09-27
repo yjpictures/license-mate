@@ -92,6 +92,20 @@ files = [
 Flask = ">=0.9"
 
 [[package]]
+name = "flask-httpauth"
+version = "4.8.0"
+description = "HTTP authentication for Flask routes"
+optional = false
+python-versions = "*"
+files = [
+    {file = "Flask-HTTPAuth-4.8.0.tar.gz", hash = "sha256:66568a05bc73942c65f1e2201ae746295816dc009edd84b482c44c758d75097a"},
+    {file = "Flask_HTTPAuth-4.8.0-py3-none-any.whl", hash = "sha256:a58fedd09989b9975448eef04806b096a3964a7feeebc0a78831ff55685b62b0"},
+]
+
+[package.dependencies]
+flask = "*"
+
+[[package]]
 name = "flask-selfdoc"
 version = "1.4.0"
 description = "Documentation generator for flask"
@@ -579,4 +593,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "801285a73e8b94ec639d43eef0cb02053051aeb9bf995a4c884ac133aee1fca4"
+content-hash = "da477d21ea7f92e3a6f49c92e0783e0f9ac5c13824ba274716fd7fb5699d0f2d"
