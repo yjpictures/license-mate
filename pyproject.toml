@@ -7,10 +7,14 @@ license = "GPL-3.0 license"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 Flask = "^2.3.3"
 Flask-Cors = "^4.0.0"
-
+pymongo = "^4.5.0"
+python-dotenv = "^1.0.0"
+pyyaml = "^6.0.1"
+flask-selfdoc = "^1.4.0"
+pandas = "^2.1.1"
 
 [tool.poetry.group.prod.dependencies]
 gunicorn = "^21.2.0"

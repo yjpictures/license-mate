@@ -15,7 +15,7 @@ poetry install
 Make sure poetry environment is enabled, then run the following code
 
 ```
-flask --app server run --debug --port 80
+flask --app main run --debug --port 80
 ```
 
 ## How to add packages
@@ -31,11 +31,19 @@ poetry add <package> --group prod
 poetry remove <package>
 ```
 
+## Sample .env file
+
+```
+FLASK_ENV=development
+MONGODB_URI=mongodb+srv://<username>:<password>@<yourcluster>.mongodb.net/
+LICENSE_LEN=16
+```
+
 # Production
 
 ## Deployment
 
 ```
 poetry install --with prod
-gunicorn server:app
+gunicorn main:app
 ```

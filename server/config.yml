@@ -1,0 +1,2 @@
+required-create: [name, email, company, product, machine-node, machine-sn]
+unique: [email, machine-node, machine-sn]

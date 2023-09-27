@@ -5,12 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/server"
+        },
+        {
             "name": "Run Server",
             "type": "python",
             "request": "launch",
             "module": "flask",
+            "cwd": "${workspaceFolder}/server",
             "env": {
-                "FLASK_APP": "server.py",
+                "FLASK_APP": "main.py",
                 "FLASK_DEBUG": "1"
             },
             "args": [
