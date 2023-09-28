@@ -56,9 +56,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        env:
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+      # # https://github.com/sigstore/cosign
+      # - name: Sign the published Docker image
+      #   env:
+      #     TAGS: ${{ steps.meta.outputs.tags }}
+      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+      #   run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
