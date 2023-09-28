@@ -1,0 +1,14 @@
+name: 'flask-license-manager'
+
+services:
+
+  backend:
+    build:
+      context: ../../
+      dockerfile: docker/builds/dev-static.Dockerfile
+    image: flask-license-manager:dev-static
+    container_name: backend
+    ports:
+      - '80:80'
+    env_file:
+      - ../../server/.env

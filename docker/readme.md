@@ -1,60 +1,29 @@
-# Why three different images?
+# Why docker?
 
-1. `prod.Dockerfile` image is for final deployment using `gunicorn`
+> Docker streamlines the development lifecycle by allowing developers to work in standardized environments using local containers which provide your applications and services. Containers are great for continuous integration and continuous delivery (CI/CD) workflows.
 
-2. `dev-static.Dockerfile` image is for testing using `flask` with the files being already copied to container
+# How to use docker for flask license manager?
 
-3. `dev-mount.Dockerfile` image is for testing using `flask` while your local files are mounted i.e. any change in local file will cause `flask` to reload the server
+## Method 1: Dockerfile
 
-# Building the images
+You could use one of the three provided `Dockerfile`s in the directory `./docker/builds/` to create your own image. Instructions on how to do so are in a separate readme in the `builds` folder.
 
-You will need to build the images if you make any changes to the poetry packages. Be sure to be in the `root` directory in when building these images.
+## Method 2: Docker Compose
 
-## Development
+You could choose from the six `docker compose` files to easily spin up a container. Simply pick one of the file you want to start with and run the following command at the `root` directory.
 
-### Static
-
-```powershell
-docker build  . -t flask-dev-static --no-cache -f .\docker\dev-static.Dockerfile
+```PowerShell
+docker compose -f .\docker\<local/cloud>-MongoDB\<your-choice>.yml up
 ```
 
-### Dynamic
+`dev-mount.yml` is for testing using `Flask` while your local files are mounted i.e. any change in local file will cause `Flask` to reload the server, whereas `dev-static.yml` is for testing using `Flask` with the files being already copied into the image.
 
-```powershell
-docker build  . -t flask-dev-mount --no-cache -f .\docker\dev-mount.Dockerfile
-```
+You can choose amongst the following options for database:
 
-## Production
+### 1. Cloud MongoDB Server
 
-```powershell
-docker build  . -t gunicorn-prod --no-cache -f .\docker\prod.Dockerfile
-```
+This will require you to create a [`MongoDB Atlas`](https://www.mongodb.com/pricing) project/cluster and enter the connection string into the environment file.
 
-# Running the images in a container
+### 2. Local MongoDB Server
 
-Be sure to be in the `root` directory in when running these commands.
-
-Some cool flags you can use here:
-1. `--rm` : Automatically remove the container when it exits
-2. `-t` : Allocate a pseudo-TTY
-3. `-d` : Run container in background and print container ID
-
-## Development
-
-### Static
-
-```powershell
-docker run -p 80:80 flask-dev-static
-```
-
-### Dynamic
-
-```powershell
-docker run -p 80:80 -v $pwd\server\static:/server/static -v $pwd\server\templates:/server/templates -v $pwd\server\main.py:/server/main.py -v $pwd\server\database.py:/server/database.py -v $pwd\server\.env:/server/.env -v $pwd\server\config.yml:/server/config.yml flask-dev-mount
-```
-
-## Production
-
-```powershell
-docker run -p 80:80 gunicorn-prod
-```
+No setup for setting up the MongoDB is required, its all done through `docker`.

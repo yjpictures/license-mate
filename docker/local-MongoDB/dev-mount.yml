@@ -1,0 +1,44 @@
+name: 'flask-license-manager'
+
+services:
+
+  backend:
+    build:
+      context: ../../
+      dockerfile: docker/builds/dev-mount.Dockerfile
+    image: flask-license-manager:dev-mount
+    container_name: backend
+    ports:
+      - '80:80'
+    environment:
+      MONGODB_URI: mongodb://database:27017/
+    volumes:
+      - ../../server/static:/server/static
+      - ../../server/templates:/server/templates
+      - ../../server/main.py:/server/main.py
+      - ../../server/database.py:/server/database.py
+      - ../../server/.env:/server/.env
+      - ../../server/config.yml:/server/config.yml
+    networks:
+      - backend-network
+
+  database:
+    image: mongo:6.0
+    container_name: database
+    environment:
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+    volumes:
+      - licenseDB:/data/db
+    networks:
+      - backend-network
+
+volumes:
+  licenseDB:
+    name: licenseDB
+    driver: local
+
+networks:
+  backend-network:
+    name: flask-license-manager
+    driver: bridge
