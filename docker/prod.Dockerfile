@@ -6,9 +6,9 @@ RUN pip install poetry==1.6.1
 
 # set environment variables
 ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+	POETRY_VIRTUALENVS_IN_PROJECT=1 \
+	POETRY_VIRTUALENVS_CREATE=1 \
+	POETRY_CACHE_DIR=/tmp/poetry_cache
 WORKDIR /server
 
 # copy the poetry files
@@ -22,7 +22,7 @@ FROM python:3.11-slim-buster as runtime
 
 # set environment variables
 ENV VIRTUAL_ENV=/server/.venv \
-    PATH="/server/.venv/bin:$PATH"
+	PATH="/server/.venv/bin:$PATH"
 
 # copy the virtual environment and server files
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
