@@ -1,52 +1,19 @@
-# Development
+# What is this?
 
-## First time dev setup
+`Flask License Manager` is an open-source license manager that you can deploy easily in a variety of environments and customize to your own needs. This is made using `Flask` for `REST API` server and `MongoDB` for the database.
 
-This will create and activate the virtual environment - `poetry shell`
+# How to deploy this license manager?
 
-This will install all dependencies - `poetry install`
+1. Use the docker image (coming soon!) and deploy it in your server environment.
 
-```PowerShell
-poetry shell
-poetry install
-```
+2. Create a [`MongoDB Atlas`](https://www.mongodb.com/pricing) project/cluster and add the IP address(es) of the server into `MongoDB` (project -> security -> network access) for whitelisting (could also allow access from anywhere but its not recommended).
 
-## Run the flask server for development
-Make sure poetry environment is enabled, then run the following code
+3. Customize the `.env` file based on your needs and that's it! Simple!
 
-```PowerShell
-flask --app main run --debug --port 80
-```
+# Now, what about client side and documentation for API?
 
-## How to add packages
+The documentation for all the REST API calls can be seen if you do a `GET` request `/` or you open the server URL on browser. `Flask License Manager` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes. There are three different types of `users` one can use for different access levels - `admin`, `manager` and `client`.
 
-```PowerShell
-poetry add <package>
-poetry add <package> --group prod
-```
+# Want us to take care of hosting your license manager?
 
-## How to remove packages
-
-```PowerShell
-poetry remove <package>
-```
-
-## Sample .env file
-
-```env
-FLASK_ENV=development
-MONGODB_URI=mongodb+srv://<username>:<password>@<yourcluster>.mongodb.net/
-LICENSE_LEN=16
-ADMIN_PWD=<admin_password>
-MANAGER_PWD=<manager_password>
-CLIENT_PWD=<client_password>
-```
-
-# Production
-
-## Deployment
-
-```PowerShell
-poetry install --with prod
-gunicorn main:app
-```
+Coming soon!
