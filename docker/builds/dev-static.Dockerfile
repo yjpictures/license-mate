@@ -1,5 +1,8 @@
 # builder base image
-FROM python:3.11-buster as builder
+FROM python:3.11 as builder
+
+LABEL name="Yash Jain"
+LABEL email="hello@yashj.ca"
 
 # install poetry
 RUN pip install poetry==1.6.1
@@ -18,7 +21,7 @@ COPY pyproject.toml poetry.lock ./
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without prod --no-root
 
 # runner base image
-FROM python:3.11-slim-buster as runtime
+FROM python:3.11-slim as runtime
 
 # set environment variables
 ENV VIRTUAL_ENV=/server/.venv \
@@ -26,6 +29,7 @@ ENV VIRTUAL_ENV=/server/.venv \
 
 # copy the virtual environment and server files
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY server ./server
 WORKDIR /server
 
 # expose port

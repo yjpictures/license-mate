@@ -1,5 +1,8 @@
 # builder base image
-FROM python:3.11-buster as builder
+FROM python:3.11 as builder
+
+LABEL name="Yash Jain"
+LABEL email="hello@yashj.ca"
 
 # install poetry
 RUN pip install poetry==1.6.1
@@ -15,10 +18,10 @@ WORKDIR /server
 COPY pyproject.toml poetry.lock ./
 
 # install python dependcies
-RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without prod --no-root
+RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --with prod --no-root
 
 # runner base image
-FROM python:3.11-slim-buster as runtime
+FROM python:3.11-slim as runtime
 
 # set environment variables
 ENV VIRTUAL_ENV=/server/.venv \
@@ -33,4 +36,4 @@ WORKDIR /server
 EXPOSE 80
 
 # flask dev environment
-ENTRYPOINT ["flask", "--app", "main", "run", "--debug", "--port", "80", "--host=0.0.0.0"]
+ENTRYPOINT ["gunicorn", "main:app", "--bind=0.0.0.0:80", "--reload"]
