@@ -8,7 +8,6 @@ from datetime import date, timedelta
 class MongoDB:
 
 	def __init__(self):
-		# environment file
 		load_dotenv()
 		try:
 			self.uri = os.getenv('MONGODB_URI', 'mongodb://database:27017/')
@@ -17,8 +16,8 @@ class MongoDB:
 			self.adminPWD = os.environ['ADMIN_PWD']
 			self.managerPWD = os.environ['MANAGER_PWD']
 			self.clientPWD = os.environ['CLIENT_PWD']
-			self.required_create = [word.strip() for word in os.environ['REQUIRED_CREATE'].split(',')]
-			self.unique = [word.strip() for word in os.environ['UNIQUE_VALIDATE'].split(',')]
+			self.required_create = [word.strip() for word in filter(None, os.environ['REQUIRED_CREATE'].split(','))]
+			self.unique = [word.strip() for word in filter(None, os.environ['UNIQUE_VALIDATE'].split(','))]
 		except KeyError as e:
 			raise Exception('Cannot find %s in .env file' % e)
 		except ValueError as e:
@@ -27,7 +26,8 @@ class MongoDB:
 			raise Exception('Improper MONGODB_URI - Should end with "/" and not include anything after')
 		if not (self.uri[:10] == 'mongodb://' or self.uri[:14] == 'mongodb+srv://'):
 			raise Exception('Improper MONGODB_URI - Should start with "mongodb+srv://" for cloud and "mongodb://" for local')
-		# TODO: validate required_create and unique, maybe error handling in case something breaks
+		if not (set(self.unique) <= set(self.required_create)):
+			raise Exception('"UNIQUE_VALIDATE" is not a subset of "REQUIRED_CREATE" environment variable')
 		
 	def connect(self):
 		myclient = pymongo.MongoClient(self.uri, server_api=ServerApi('1'))
