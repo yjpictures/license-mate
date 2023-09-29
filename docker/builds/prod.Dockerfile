@@ -1,5 +1,5 @@
 # builder base image
-FROM python:3.11 as builder
+FROM python:3.11
 
 LABEL maintainer="Yash Jain <hello@yashj.ca>"
 
@@ -19,16 +19,11 @@ COPY pyproject.toml poetry.lock ./
 # install python dependcies
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --with prod --no-root
 
-# runner base image
-FROM python:3.11-slim as runtime
-
 # set environment variables
-ENV VIRTUAL_ENV=/server/.venv \
-	PATH="/server/.venv/bin:$PATH"
+ENV PATH="/server/.venv/bin:$PATH"
 
-# copy the virtual environment and server files
-COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
-COPY server ./server
+# copy the server files
+COPY server ./
 WORKDIR /server
 
 # expose port

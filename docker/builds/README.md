@@ -63,5 +63,5 @@ docker run -p 80:80 -v $pwd\server\static:/server/static -v $pwd\server\template
 ## Production
 
 ```PowerShell
-docker run -p 80:80 --env-file <env-file-path> flask-dev-static
+docker run -p 80:80 --env-file <env-file-path> gunicorn-prod
 ```
