@@ -45,8 +45,8 @@ jobs:
             ${{ vars.REGISTRY }}/${{ github.repository }}
             ${{ github.repository }}
           tags: |
-            type=sha
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=sha
       
       - name: Build and push
         uses: docker/build-push-action@v5
