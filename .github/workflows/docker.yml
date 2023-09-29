@@ -21,11 +21,6 @@ jobs:
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
-      # https://github.com/docker/setup-qemu-action
-      - name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v3
 
       # https://github.com/docker/login-action#github-container-registry
       - name: Log into registry GitHub Container Registry
@@ -49,7 +44,6 @@ jobs:
           context: .
           file: ${{ vars.DOCKERFILE_PROD }}
           push: true
-          platforms: ${{ steps.qemu.outcome }}
           tags: |
             yjpictures/flask-license-manager:latest
             ghcr.io/yjpictures/flask-license-manager:latest
