@@ -42,6 +42,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
+          context: git
           images: |
             ${{ vars.REGISTRY }}/${{ github.repository }}
             ${{ github.repository }}
@@ -56,7 +57,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: git
+          context: .
           file: ${{ vars.DOCKERFILE_PROD }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
