@@ -63,4 +63,4 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ github.repository }}
-          short-description: ${{ vars.DESCRIPTION }}
+          short-description: ${{ vars.DOCKER_HUB_DESCRIPTION }}
