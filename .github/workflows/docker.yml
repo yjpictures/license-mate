@@ -42,7 +42,7 @@ jobs:
             ${{ vars.REGISTRY }}/${{ github.repository }}
             ${{ github.repository }}
           tags: |
-            type=ref,event=branch
+            type=ref,event=branch,enable=${{ github.ref != format('refs/heads/{0}', 'main') }}
             type=sha
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
       
