@@ -23,7 +23,10 @@ class MongoDB:
 			raise Exception('Cannot find %s in .env file' % e)
 		except ValueError as e:
 			raise Exception('LICENSE_LEN is not entered as an integer\n%s' % e)
-		# TODO: error handle if uri is not proper
+		if self.uri[-1] != '/':
+			raise Exception('Improper MONGODB_URI - Should end with "/" and not include anything after')
+		if not (self.uri[:10] == 'mongodb://' or self.uri[:14] == 'mongodb+srv://'):
+			raise Exception('Improper MONGODB_URI - Should start with "mongodb+srv://" for cloud and "mongodb://" for local')
 		# TODO: validate required_create and unique, maybe error handling in case something breaks
 		
 	def connect(self):
