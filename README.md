@@ -2,6 +2,12 @@
 
 `Flask License Manager` is an open-source license manager that you can deploy easily in a variety of environments and customize to your own needs. This is made using `Flask` for `REST API` server and `MongoDB` for the database.
 
+<u>Links</u>
+
+- [Docker Hub](https://hub.docker.com/r/yjpictures/flask-license-manager)
+- [GitHub Container Registry](ghcr.io/yjpictures/flask-license-manager)
+- [GitHub](https://github.com/yjpictures/flask-license-manager)
+
 
 
 # How to deploy this license manager?
@@ -91,7 +97,7 @@ Coming soon! You would soon be able to install everything through an installer f
 
 
 
-# Now, what about client side and documentation for API?
+# What about client side and documentation for API?
 
 The documentation for all the REST API calls can be seen if you do a `GET` request `/` or you open the server URL on browser. `Flask License Manager` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes. There are three different types of `users` one can use for different access levels - `admin`, `manager` and `client`.
 
@@ -101,6 +107,6 @@ The documentation for all the REST API calls can be seen if you do a `GET` reque
 
 Depending on the size and scale, we can host, manage and customize the flask license manager to suit your needs so you can focus on the client side of things.
 
-**Prices start @ US$10.99/month**
+**Prices start @ US$7.99/month**
 
 [Contact us for more information!](mailto:hello@yashj.ca)
