@@ -52,6 +52,7 @@ jobs:
           file: ${{ vars.DOCKERFILE_PROD }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          provenance: false
       
       # https://github.com/peter-evans/dockerhub-description
       - name: Docker Hub Description
