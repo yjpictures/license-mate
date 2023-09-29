@@ -5,7 +5,7 @@
 <u>Links</u>
 
 - [Docker Hub](https://hub.docker.com/r/yjpictures/flask-license-manager)
-- [GitHub Container Registry](ghcr.io/yjpictures/flask-license-manager)
+- [GitHub Container Registry](https://ghcr.io/yjpictures/flask-license-manager)
 - [GitHub](https://github.com/yjpictures/flask-license-manager)
 
 
