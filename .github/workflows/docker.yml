@@ -55,3 +55,4 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: yjpictures/flask-license-manager
+          readme-filepath: ./readme.md
