@@ -37,16 +37,30 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
+      # https://github.com/docker/metadata-action
+      - name: Docker Metadata Capture
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ vars.REGISTRY }}/${{ github.repository }}
+            ${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+          labels: |
+            org.opencontainers.image.version=0.1.0
+      
       # https://github.com/docker/build-push-action
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: git
           file: ${{ vars.DOCKERFILE_PROD }}
           push: true
-          tags: |
-            yjpictures/flask-license-manager:latest
-            ghcr.io/yjpictures/flask-license-manager:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       
       # https://github.com/peter-evans/dockerhub-description
       - name: Docker Hub Description
@@ -54,5 +68,4 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: yjpictures/flask-license-manager
-          readme-filepath: ./readme.md
+          repository: ${{ github.repository }}
