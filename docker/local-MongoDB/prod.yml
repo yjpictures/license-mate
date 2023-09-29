@@ -10,8 +10,6 @@ services:
     container_name: backend
     ports:
       - '80:80'
-    environment:
-      MONGODB_URI: mongodb://database:27017/
     env_file:
       - ../../server/.env
     networks:

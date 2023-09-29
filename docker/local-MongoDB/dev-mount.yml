@@ -10,15 +10,12 @@ services:
     container_name: backend
     ports:
       - '80:80'
-    environment:
-      MONGODB_URI: mongodb://database:27017/
     volumes:
       - ../../server/static:/server/static
       - ../../server/templates:/server/templates
       - ../../server/main.py:/server/main.py
       - ../../server/database.py:/server/database.py
       - ../../server/.env:/server/.env
-      - ../../server/config.yml:/server/config.yml
     networks:
       - backend-network
 
