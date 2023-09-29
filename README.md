@@ -16,10 +16,10 @@
 
 **This method is preferred as `MongoDB Atlas` has data redundancy built-in.**
 
-1. Create the following dockerfile on your server and name it `compose.yml`.
+1. Create the following `docker compose` on your server and name it `compose.yml`.
 
 ```yml
-name: 'flask-license-manager'
+name: flask-license-manager
 
 services:
 
@@ -27,12 +27,12 @@ services:
     image: yjpictures/flask-license-manager
     container_name: backend
     ports:
-      - '80:80'
+      - 80:80
     environment:
       MONGODB_URI: mongodb+srv://<username>:<password>@<yourcluster>.mongodb.net/
       ADMIN_PWD: <admin_password>
-      MANAGER_PWD: manager_password>
-      CLIENT_PWD: client_password>
+      MANAGER_PWD: <manager_password>
+      CLIENT_PWD: <client_password>
       REQUIRED_CREATE: name, email, company, product, machine-node, machine-sn
       UNIQUE_VALIDATE: email, machine-node, machine-sn
 ```
@@ -48,10 +48,10 @@ services:
 
 ## Method 2: Self-hosted server and MongoDB
 
-1. Create the following dockerfile on your server and name it `compose.yml`.
+1. Create the following `docker compose` on your server and name it `compose.yml`.
 
 ```yml
-name: 'flask-license-manager'
+name: flask-license-manager
 
 services:
 
@@ -59,11 +59,11 @@ services:
     image: yjpictures/flask-license-manager
     container_name: backend
     ports:
-      - '80:80'
+      - 80:80
     environment:
       ADMIN_PWD: <admin_password>
-      MANAGER_PWD: manager_password>
-      CLIENT_PWD: client_password>
+      MANAGER_PWD: <manager_password>
+      CLIENT_PWD: <client_password>
       REQUIRED_CREATE: name, email, company, product, machine-node, machine-sn
       UNIQUE_VALIDATE: email, machine-node, machine-sn
     networks:
@@ -91,9 +91,9 @@ networks:
     driver: bridge
 ```
 
-3. Customize the environment variables based on your needs.
+2. Customize the environment variables based on your needs.
 
-4. Run `docker compose up` in your server to pull the image and run it into a container.
+3. Run `docker compose up` in your server to pull the image and run it into a container.
 
 *Simple as that! Flask License Manager server should now be running on your `port 80`.*
 
