@@ -1,0 +1,19 @@
+name: 'flask-license-manager'
+
+services:
+
+  backend:
+    build:
+      context: ../../
+      dockerfile: docker/builds/dev-mount.Dockerfile
+    image: flask-license-manager:dev-mount
+    container_name: backend
+    ports:
+      - '80:80'
+    volumes:
+      - ../../server/static:/server/static
+      - ../../server/templates:/server/templates
+      - ../../server/main.py:/server/main.py
+      - ../../server/database.py:/server/database.py
+      - ../../server/.env:/server/.env
+      - ../../server/config.yml:/server/config.yml

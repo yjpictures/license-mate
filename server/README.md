@@ -1,14 +1,20 @@
+# Preface
+
+It is preferred to use containers, kindly refer to the `readme.md` in `/docker` directory.
+
+If you still prefer to do development on your local environment, read along. All the commands mentioned here are to be run from inside `/server` directory.
+
 # Development
 
 ## First time dev setup
 
 This will create and activate the virtual environment - `poetry shell`
 
-This will install all dependencies - `poetry install`
+This will install all dependencies - `poetry install --without prod`
 
 ```PowerShell
 poetry shell
-poetry install
+poetry install --without prod
 ```
 
 ## Run the flask server for development
@@ -32,6 +38,8 @@ poetry remove <package>
 ```
 
 ## Sample .env file
+
+The `.env` file goes in `/server` directory.
 
 ```env
 FLASK_ENV=development
