@@ -3,35 +3,31 @@ from pymongo.server_api import ServerApi
 import os
 import codecs
 from dotenv import load_dotenv
-import yaml
 from datetime import date, timedelta
 
 class MongoDB:
 
 	def __init__(self):
-		# environment file
 		load_dotenv()
-		self.uri = str(os.getenv('MONGODB_URI'))
-		self.dbName = str(os.getenv('FLASK_ENV'))
-		self.licenseLength = int(os.getenv('LICENSE_LEN')) # type: ignore
-		self.adminPWD = str(os.getenv('ADMIN_PWD'))
-		self.managerPWD = str(os.getenv('MANAGER_PWD'))
-		self.clientPWD = str(os.getenv('CLIENT_PWD'))
-		# TODO: error handling if these passwords not present
-		if not (self.uri  and self.dbName and self.licenseLength):
-			raise Exception('Cannot find "MONGODB_URI" AND/OR "FLASK_ENV" AND/OR "LICENSE_LEN" in .env file')
-		# config file
-		configFileName = 'config.yml'
-		if not os.path.exists(configFileName):
-			raise Exception('Cannot find the %s file in %s' % (configFileName, os.getcwd()))
-		with open(configFileName, 'r') as file:
-			config = yaml.safe_load(file)
-		if not all(name in config for name in ['required-create', 'unique']):
-			raise Exception('Cannot find "required-create" AND/OR "unique" in config.yml file. If you do not need any unique comparison then leave it as an empty list "[]".')
-		self.required_create = config['required-create']
-		self.unique = config['unique']
-		if type(self.required_create) != list or type(self.unique) != list:
-			raise Exception('Value of "required-create" AND/OR "unique" in config.yml file is incorrect')
+		try:
+			self.uri = os.getenv('MONGODB_URI', 'mongodb://database:27017/')
+			self.dbName = os.getenv('SERVER_ENV', 'production')
+			self.licenseLength = int(os.getenv('LICENSE_LEN', 32))
+			self.adminPWD = os.environ['ADMIN_PWD']
+			self.managerPWD = os.environ['MANAGER_PWD']
+			self.clientPWD = os.environ['CLIENT_PWD']
+			self.required_create = [word.strip() for word in filter(None, os.environ['REQUIRED_CREATE'].split(','))]
+			self.unique = [word.strip() for word in filter(None, os.environ['UNIQUE_VALIDATE'].split(','))]
+		except KeyError as e:
+			raise Exception('Cannot find %s in .env file' % e)
+		except ValueError as e:
+			raise Exception('LICENSE_LEN is not entered as an integer\n%s' % e)
+		if self.uri[-1] != '/':
+			raise Exception('Improper MONGODB_URI - Should end with "/" and not include anything after')
+		if not (self.uri[:10] == 'mongodb://' or self.uri[:14] == 'mongodb+srv://'):
+			raise Exception('Improper MONGODB_URI - Should start with "mongodb+srv://" for cloud and "mongodb://" for local')
+		if not (set(self.unique) <= set(self.required_create)):
+			raise Exception('"UNIQUE_VALIDATE" is not a subset of "REQUIRED_CREATE" environment variable')
 		
 	def connect(self):
 		myclient = pymongo.MongoClient(self.uri, server_api=ServerApi('1'))
@@ -43,7 +39,7 @@ class MongoDB:
 			strippedDict = {key: requestDict[key] for key in self.required_create}
 			today = date.today()
 			future = today + timedelta(int(requestDict['length']))
-			strippedDict['_id'] = codecs.encode(os.urandom(self.licenseLength), 'hex').decode()
+			strippedDict['_id'] = codecs.encode(os.urandom(int(self.licenseLength/2)), 'hex').decode()
 			strippedDict['created'] = date.isoformat(today)
 			strippedDict['expiry'] = date.isoformat(future)
 			strippedDict['renew_count'] = 0

@@ -24,17 +24,22 @@ name: 'flask-license-manager'
 services:
 
   backend:
-    image: yjpictures/flask-license-manager:latest
+    image: yjpictures/flask-license-manager
     container_name: backend
     ports:
       - '80:80'
-    env_file:
-      - <path to env file>
+    environment:
+      MONGODB_URI: mongodb+srv://<username>:<password>@<yourcluster>.mongodb.net/
+      ADMIN_PWD: <admin_password>
+      MANAGER_PWD: manager_password>
+      CLIENT_PWD: client_password>
+      REQUIRED_CREATE: name, email, company, product, machine-node, machine-sn
+      UNIQUE_VALIDATE: email, machine-node, machine-sn
 ```
 
 2. Create a [`MongoDB Atlas`](https://www.mongodb.com/pricing) project/cluster and add the IP address(es) of the server into `MongoDB` (project -> security -> network access) for whitelisting (could also allow access from anywhere but its not recommended).
 
-3. Customize the `.env` file based on your needs, `MONGODB_URI` is a connection string that can be obtained from your `MongoDB` project.
+3. Customize the environment variables based on your needs, `MONGODB_URI` is a connection string that can be obtained from your `MongoDB` project.
 
 4. Run `docker compose up` in your server to pull the image and run it into a container.
 
@@ -51,14 +56,16 @@ name: 'flask-license-manager'
 services:
 
   backend:
-    image: yjpictures/flask-license-manager:latest
+    image: yjpictures/flask-license-manager
     container_name: backend
     ports:
       - '80:80'
     environment:
-      MONGODB_URI: mongodb://database:27017/
-    env_file:
-      - <path to env file>
+      ADMIN_PWD: <admin_password>
+      MANAGER_PWD: manager_password>
+      CLIENT_PWD: client_password>
+      REQUIRED_CREATE: name, email, company, product, machine-node, machine-sn
+      UNIQUE_VALIDATE: email, machine-node, machine-sn
     networks:
       - backend-network
 
@@ -84,7 +91,7 @@ networks:
     driver: bridge
 ```
 
-3. Customize the `.env` file based on your needs.
+3. Customize the environment variables based on your needs.
 
 4. Run `docker compose up` in your server to pull the image and run it into a container.
 
@@ -106,7 +113,5 @@ The documentation for all the REST API calls can be seen if you do a `GET` reque
 # Want us to take care of hosting your license manager?
 
 Depending on the size and scale, we can host, manage and customize the flask license manager to suit your needs so you can focus on the client side of things.
-
-**Prices start @ US$7.99/month**
 
 [Contact us for more information!](mailto:hello@yashj.ca)

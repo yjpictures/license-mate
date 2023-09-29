@@ -57,7 +57,7 @@ docker run -p 80:80 --env-file <env-file-path> flask-dev-static
 
 We are not supplying `--evn-file` tag as the `.env` file should already exist in your `/server/` directory because of mounting.
 ```PowerShell
-docker run -p 80:80 -v $pwd\server\static:/server/static -v $pwd\server\templates:/server/templates -v $pwd\server\main.py:/server/main.py -v $pwd\server\database.py:/server/database.py -v $pwd\server\.env:/server/.env -v $pwd\server\config.yml:/server/config.yml flask-dev-mount
+docker run -p 80:80 -v $pwd\server\static:/server/static -v $pwd\server\templates:/server/templates -v $pwd\server\main.py:/server/main.py -v $pwd\server\database.py:/server/database.py -v $pwd\server\.env:/server/.env flask-dev-mount
 ```
 
 ## Production

@@ -16,4 +16,3 @@ services:
       - ../../server/main.py:/server/main.py
       - ../../server/database.py:/server/database.py
       - ../../server/.env:/server/.env
-      - ../../server/config.yml:/server/config.yml
