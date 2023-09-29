@@ -18,7 +18,7 @@ name: 'flask-license-manager'
 services:
 
   backend:
-    image: flask-license-manager:latest
+    image: yjpictures/flask-license-manager:latest
     container_name: backend
     ports:
       - '80:80'
@@ -45,7 +45,7 @@ name: 'flask-license-manager'
 services:
 
   backend:
-    image: flask-license-manager:latest
+    image: yjpictures/flask-license-manager:latest
     container_name: backend
     ports:
       - '80:80'
