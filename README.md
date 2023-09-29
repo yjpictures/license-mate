@@ -114,6 +114,4 @@ The documentation for all the REST API calls can be seen if you do a `GET` reque
 
 Depending on the size and scale, we can host, manage and customize the flask license manager to suit your needs so you can focus on the client side of things.
 
-**Prices start @ US$7.99/month**
-
 [Contact us for more information!](mailto:hello@yashj.ca)
