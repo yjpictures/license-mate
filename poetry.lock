@@ -106,17 +106,6 @@ files = [
 flask = "*"
 
 [[package]]
-name = "flask-selfdoc"
-version = "1.4.0"
-description = "Documentation generator for flask"
-optional = false
-python-versions = ">=3.6,<4.0"
-files = [
-    {file = "flask_selfdoc-1.4.0-py3-none-any.whl", hash = "sha256:0e34d95037f8df76cf447fdb6824ed1530f03e7e11757cf862d42ce3669025a4"},
-    {file = "flask_selfdoc-1.4.0.tar.gz", hash = "sha256:926c7d484e124044a4af8dc1c74fea4d7514e20ab44beab3f6f0a2f429ede16d"},
-]
-
-[[package]]
 name = "gunicorn"
 version = "21.2.0"
 description = "WSGI HTTP Server for UNIX"
@@ -534,4 +523,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "7531bc4ec015f1e03c4a088cbeea8a10917af07bfb2c2e075c88e4fd6bcb8d38"
+content-hash = "c0306a9605b572b130877900246882270adba73d699ce57e461ba545a10db1b1"

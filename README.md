@@ -106,7 +106,9 @@ Coming soon! You would soon be able to install everything through an installer f
 
 # What about client side and documentation for API?
 
-The documentation for all the REST API calls can be seen if you do a `GET` request `/` or you open the server URL on browser. `Flask License Manager` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes. There are three different types of `users` one can use for different access levels - `admin`, `manager` and `client`.
+The interactive documentation for all the REST API calls can be seen if you open the server URL on a browser. You will be able to see all the different requests you can send including the required parameters, JSON payload schema and expected output. You can even test out the requests right through the browser window.
+
+`Flask License Manager` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes.
 
 
 
