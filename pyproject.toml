@@ -15,7 +15,6 @@ python-dotenv = "^1.0.0"
 pandas = "^2.1.1"
 flask-httpauth = "^4.8.0"
 werkzeug = "^2.3.7"
-flask-swagger-ui = "^4.11.1"
 
 [tool.poetry.group.prod.dependencies]
 gunicorn = "^21.2.0"

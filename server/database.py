@@ -50,14 +50,14 @@ class MongoDB:
 				if not duplicates:
 					add_item = True 
 				else:
-					raise Exception('One of the "unique" keys are matching with an already registered license -> %s' % str(duplicates))
+					raise Exception('One of the "UNIQUE_VALIDATE" keys are matching with an already registered license -> %s' % str(duplicates))
 			else:
 				add_item = True
 			if add_item:
 				x = self.myCollection.insert_one(strippedDict)
 				return x.inserted_id
 		else:
-			raise Exception('Missing the "required-create" keys AND/OR "length" key in the json request')
+			raise Exception('Missing one or more of the "REQUIRED_CREATE" key(s) AND/OR "length" key in the json request')
 		
 	def validate(self, requestDict: dict):
 		required_validate = ['_id']
@@ -71,7 +71,7 @@ class MongoDB:
 			else:
 				raise Exception('The license (%s) is not present in the database' % requestDict['_id'])
 		else:
-			raise Exception('Missing "_id" key in the json request')
+			raise Exception('Missing "_id" parameter in the query')
 		
 	def renew(self, requestDict: dict):
 		required_validate = ['_id', 'length']
@@ -97,7 +97,7 @@ class MongoDB:
 			elif x.acknowledged and x.deleted_count == 0:
 				raise Exception('Unable to find a license with _id %s' % requestDict['_id'])
 		else:
-			raise Exception('Missing "_id" key in the json request')
+			raise Exception('Missing "_id" parameter in the query')
 		
 	def getAll(self):
 		allLicenses = list(self.myCollection.find())

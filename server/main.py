@@ -1,7 +1,6 @@
 from flask import Flask, redirect, url_for, request, abort, render_template
 from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
-from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import MongoDB
 import pandas as pd
@@ -16,15 +15,6 @@ users = {
 	'manager': generate_password_hash(dB.managerPWD),
 	'client': generate_password_hash(dB.clientPWD)
 }
-swaggerui_blueprint = get_swaggerui_blueprint(
-    '/api/v1/docs',
-    '/static/docs.json',
-    config={
-        'app_name': "API Documentation",
-		'explorer': False
-    },
-)
-app.register_blueprint(swaggerui_blueprint)
 
 @auth.verify_password
 def verifyPassword(username, password):
@@ -123,7 +113,14 @@ def start():
 	"""
 	This is for home directory. It is set to redirect to docs page.
 	"""
-	return redirect(url_for('swagger_ui.show'))
+	return redirect(url_for('docs'))
+
+@app.route('/api/v1/docs')
+def docs():
+	"""
+	This is where the docs are rendered.
+	"""
+	return render_template('docs.html')
 
 @app.route("/healthz")
 def health():
@@ -142,10 +139,10 @@ def handleError(e):
 	except:
 		return {'message': str(e)}, 500
 
-# @app.before_request
-# def onlyJSON():
-# 	"""
-# 	This is to make sure we only accept JSON.
-# 	"""
-# 	if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css', '/healthz', '/swagger']:
-# 		abort(406, 'This server only accepts JSON')
+@app.before_request
+def onlyJSON():
+	"""
+	This is to make sure there is a JSON payload
+	"""
+	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew']:
+		abort(406, '%s requires a JSON payload' % request.path)

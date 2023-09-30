@@ -14,7 +14,7 @@
 	},
 	"externalDocs": {
 	  "description": "Find out more about Flask License Manager",
-	  "url": "https://github.com/yjpictures/flask-license-manager"
+	  "url": "https://github.com/yjpictures/flask-license-manager#readme"
 	},
 	"tags": [
 	  {
@@ -121,7 +121,7 @@
 			  }
 			},
 			"404": {
-			  "description": "The license (%s) is not present in the database"
+			  "description": "The license is not present in the database"
 			}
 		  }
 		}
@@ -153,7 +153,10 @@
 			  }
 			},
 			"400": {
-			  "description": "Missing the \"required-create\" keys AND/OR \"length\" key in the json request"
+			  "description": "Missing one or more of the \"REQUIRED_CREATE\" key(s) AND/OR \"length\" key in the json request"
+			},
+			"406": {
+			  "description": "/api/v1/create requires a JSON payload"
 			}
 		  }
 		}
@@ -186,6 +189,9 @@
 			},
 			"404": {
 			  "description": "Unable to find a license with _id"
+			},
+			"406": {
+			  "description": "/api/v1/renew requires a JSON payload"
 			}
 		  }
 		}
