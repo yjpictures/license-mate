@@ -1,8 +1,8 @@
 from flask import Flask, redirect, url_for, request, abort, render_template
 from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
+from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_selfdoc import Autodoc
 from database import MongoDB
 import pandas as pd
 
@@ -10,14 +10,21 @@ dB = MongoDB()
 dB.connect()
 app = Flask(__name__)
 CORS(app)
-auto_doc = Autodoc(app)
 auth = HTTPBasicAuth()
-
 users = {
 	'admin': generate_password_hash(dB.adminPWD),
 	'manager': generate_password_hash(dB.managerPWD),
 	'client': generate_password_hash(dB.clientPWD)
 }
+swaggerui_blueprint = get_swaggerui_blueprint(
+    '/api/v1/docs',
+    '/static/docs.json',
+    config={
+        'app_name': "API Documentation",
+		'explorer': False
+    },
+)
+app.register_blueprint(swaggerui_blueprint)
 
 @auth.verify_password
 def verifyPassword(username, password):
@@ -33,7 +40,6 @@ def authError(status):
 	return {'message': 'You do not have access'}, status
 
 @app.route("/api/v1/create", methods=['POST'])
-@auto_doc.doc()
 @auth.login_required(role=['manager', 'admin'])
 def create():
 	"""
@@ -42,12 +48,11 @@ def create():
 	"""
 	try:
 		response = dB.create(request.get_json())
-		return {'message': 'Created a new license', 'id': response}, 200
+		return {'message': 'Created a new license', '_id': response}, 200
 	except Exception as e:
 		return {'message': str(e)}, 400
 
 @app.route("/api/v1/renew", methods=['PATCH'])
-@auto_doc.doc()
 @auth.login_required(role=['manager', 'admin'])
 def renew():
 	"""
@@ -58,10 +63,9 @@ def renew():
 		dB.renew(request.get_json())
 		return {'message': 'Renewed the license'}, 200
 	except Exception as e:
-		return {'message': str(e)}, 400
+		return {'message': str(e)}, 404
 
 @app.route("/api/v1/delete", methods=['DELETE'])
-@auto_doc.doc()
 @auth.login_required(role=['manager', 'admin'])
 def delete():
 	"""
@@ -69,13 +73,12 @@ def delete():
 	Authorized access: 'manager', 'admin'
 	"""
 	try:
-		dB.delete(request.get_json())
+		dB.delete(request.args.to_dict())
 		return {'message': 'Deleted the license'}, 200
 	except Exception as e:
-		return {'message': str(e)}, 400
+		return {'message': str(e)}, 404
 
 @app.route("/api/v1/validate", methods=['GET'])
-@auto_doc.doc()
 @auth.login_required
 def validate():
 	"""
@@ -83,13 +86,12 @@ def validate():
 	Authorized access: 'client', 'manager', 'admin'
 	"""
 	try:
-		response = dB.validate(request.get_json())
+		response = dB.validate(request.args.to_dict())
 		return {'message': 'Validated the license', 'license-details': response}, 200
 	except Exception as e:
 		return {'message': str(e)}, 404
 	
 @app.route("/api/v1/get-all", methods=['GET'])
-@auto_doc.doc()
 @auth.login_required(role=['admin'])
 def getAll():
 	"""
@@ -121,16 +123,9 @@ def start():
 	"""
 	This is for home directory. It is set to redirect to docs page.
 	"""
-	return redirect(url_for('docs'))
+	return redirect(url_for('swagger_ui.show'))
 
-@app.route("/api/v1/docs")
-def docs():
-	"""
-	This is for docs html.
-	"""
-	return auto_doc.html(title='Flask License Manager API Documentation', author='Yash Jain'), 200
-
-@app.route("/health")
+@app.route("/healthz")
 def health():
 	"""
 	This is for health check. Always replies 200 OK.
@@ -147,10 +142,10 @@ def handleError(e):
 	except:
 		return {'message': str(e)}, 500
 
-@app.before_request
-def onlyJSON():
-	"""
-	This is to make sure we only accept JSON.
-	"""
-	if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css', '/health']:
-		abort(406, 'This server only accepts JSON')
+# @app.before_request
+# def onlyJSON():
+# 	"""
+# 	This is to make sure we only accept JSON.
+# 	"""
+# 	if not request.is_json and not request.path in ['/', '/api/v1/docs', '/api/v1/database', '/static/style.css', '/healthz', '/swagger']:
+# 		abort(406, 'This server only accepts JSON')

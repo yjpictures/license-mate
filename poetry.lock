@@ -106,15 +106,18 @@ files = [
 flask = "*"
 
 [[package]]
-name = "flask-selfdoc"
-version = "1.4.0"
-description = "Documentation generator for flask"
+name = "flask-swagger-ui"
+version = "4.11.1"
+description = "Swagger UI blueprint for Flask"
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = "*"
 files = [
-    {file = "flask_selfdoc-1.4.0-py3-none-any.whl", hash = "sha256:0e34d95037f8df76cf447fdb6824ed1530f03e7e11757cf862d42ce3669025a4"},
-    {file = "flask_selfdoc-1.4.0.tar.gz", hash = "sha256:926c7d484e124044a4af8dc1c74fea4d7514e20ab44beab3f6f0a2f429ede16d"},
+    {file = "flask-swagger-ui-4.11.1.tar.gz", hash = "sha256:a370199a780d678b32e38f1be10d4d81efa0ee63e9fe2fb766ff1a4b6c37dac8"},
+    {file = "flask_swagger_ui-4.11.1-py3-none-any.whl", hash = "sha256:c951928fe4592d3561b543e0e1ca32703f55d3474de86c894a9d27f795d96c83"},
 ]
+
+[package.dependencies]
+flask = "*"
 
 [[package]]
 name = "gunicorn"
@@ -534,4 +537,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "7531bc4ec015f1e03c4a088cbeea8a10917af07bfb2c2e075c88e4fd6bcb8d38"
+content-hash = "135d45f028c8fb2ca1552ec4c8793e5f68442655512326971dfe6e3caa3fe992"

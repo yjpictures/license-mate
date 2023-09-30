@@ -12,10 +12,10 @@ Flask = "^2.3.3"
 Flask-Cors = "^4.0.0"
 pymongo = "^4.5.0"
 python-dotenv = "^1.0.0"
-flask-selfdoc = "^1.4.0"
 pandas = "^2.1.1"
 flask-httpauth = "^4.8.0"
 werkzeug = "^2.3.7"
+flask-swagger-ui = "^4.11.1"
 
 [tool.poetry.group.prod.dependencies]
 gunicorn = "^21.2.0"
