@@ -5,13 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Current File",
-            "type": "python",
+            "command": "npm start",
+            "name": "Run Server UI",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "cwd": "${workspaceFolder}/server"
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}/server-ui"
         },
         {
             "name": "Run Server",
@@ -30,7 +28,15 @@
                 "80"
             ],
             "jinja": true,
-            "justMyCode": true
+            "justMyCode": true,
+            "preLaunchTask": "Build Server UI"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Server All",
+            "configurations": ["Run Server UI", "Run Server"],
+            "stopAll": true
         }
     ]
 }

@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "server-ui",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "Build Server UI",
+			"detail": "webpack --config webpack.prod.js"
+		}
+	]
+}
