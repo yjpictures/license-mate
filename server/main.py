@@ -108,6 +108,13 @@ def showDatabase():
 	except Exception as e:
 		return {'message': str(e)}, 404
 
+@app.route('/ui')
+def adminUI():
+	"""
+	This is where user can access the server ui.
+	"""
+	return 'UI coming soon'
+
 @app.route("/")
 def start():
 	"""
