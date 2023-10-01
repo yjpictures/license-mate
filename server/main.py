@@ -18,8 +18,12 @@ users = {
 
 @auth.verify_password
 def verifyPassword(username, password):
-	if username in users and check_password_hash(users.get(username), password): # type: ignore
+	if username in users and check_password_hash(users.get(username), password):
 		return username
+	elif username not in users:
+		abort(404, 'Not a valid user')
+	elif not check_password_hash(users.get(username), password):
+		abort(401, 'Incorrect password')
 	
 @auth.get_user_roles
 def getUserRoles(user):
@@ -27,7 +31,7 @@ def getUserRoles(user):
 
 @auth.error_handler
 def authError(status):
-	return {'message': 'You do not have access'}, status
+	return {'message': 'User does not have access privileges'}, status
 
 @app.route("/api/v1/create", methods=['POST'])
 @auth.login_required(role=['manager', 'admin'])
