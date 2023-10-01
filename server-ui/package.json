@@ -4,8 +4,8 @@
   "description": "Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server .",
-    "build": "Webpack ."
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "Yash Jain",
   "license": "GPL-3.0",
@@ -21,14 +21,21 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jest": "^27.4.2",
+    "terser-webpack-plugin": "^5.3.9",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0"
   },
   "dependencies": {
     "@babel/cli": "^7.23.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.11",
     "path": "^0.12.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0"
   }
 }
