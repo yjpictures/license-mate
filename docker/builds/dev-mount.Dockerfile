@@ -14,10 +14,10 @@ ENV POETRY_NO_INTERACTION=1 \
 WORKDIR /server
 
 # copy the poetry files
-COPY pyproject.toml poetry.lock ./
+COPY server/pyproject.toml server/poetry.lock ./
 
 # install python dependcies
-RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without prod --no-root
+RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install
 
 # runner base image
 FROM python:3.11-slim as runtime
