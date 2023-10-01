@@ -10,11 +10,11 @@ If you still prefer to do development on your local environment, read along. All
 
 This will create and activate the virtual environment - `poetry shell`
 
-This will install all dependencies - `poetry install --without prod`
+This will install all dependencies - `poetry install`
 
 ```PowerShell
 poetry shell
-poetry install --without prod
+poetry install
 ```
 
 ## Run the flask server for development
@@ -46,13 +46,16 @@ The `.env` file goes in `/server` directory.
 # OPTIONAL FIELDS
 # =========================
 # This is for the name of MongoDB database
-SERVER_ENV=development # default: production
+# default: production
+SERVER_ENV=development
 # -------------------------
 # This is for the auto-generated license key length
-LICENSE_LEN=16 # default: 32
+# default: 32
+LICENSE_LEN=16
 # -------------------------
 # This is the connection string for MongoDB database
-MONGODB_URI=mongodb+srv://<username>:<password>@<yourcluster>.mongodb.net/ # default: mongodb://database:27017/
+# default: mongodb://database:27017/
+MONGODB_URI=mongodb+srv://<username>:<password>@<yourcluster>.mongodb.net/
 # -------------------------
 
 # =========================

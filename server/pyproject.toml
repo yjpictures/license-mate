@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flask-license-manager"
-version = "0.1.0"
+version = "1.0.0"
 description = "Flask based license manager that uses MongoDB"
 authors = ["Yash Jain <yashjain@mail.com>"]
 license = "GPL-3.0 license"
@@ -15,6 +15,9 @@ python-dotenv = "^1.0.0"
 pandas = "^2.1.1"
 flask-httpauth = "^4.8.0"
 werkzeug = "^2.3.7"
+
+[tool.poetry.group.prod]
+optional = true
 
 [tool.poetry.group.prod.dependencies]
 gunicorn = "^21.2.0"
