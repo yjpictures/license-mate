@@ -168,3 +168,9 @@ cython_debug/
 
 # Swagger-UI
 docs.yaml
+
+# Node js
+node_modules
+/server-ui/public/main.js
+/server-ui/public/main.js
+/server/static/js/server-ui.js

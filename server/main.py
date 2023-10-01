@@ -4,6 +4,7 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import MongoDB
 import pandas as pd
+import os
 
 dB = MongoDB()
 dB.connect()
@@ -117,7 +118,10 @@ def adminUI():
 	"""
 	This is where user can access the server ui.
 	"""
-	return 'UI coming soon'
+	if os.path.isfile('static/js/server-ui.js'):
+		return render_template('server-ui.html')
+	else:
+		return {'message': 'Unable to locate the server-ui.js in static/js. Make sure React build was done properly.'}, 503
 
 @app.route("/")
 def start():
