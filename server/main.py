@@ -4,6 +4,7 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import MongoDB
 import pandas as pd
+import os
 
 dB = MongoDB()
 dB.connect()
@@ -18,8 +19,12 @@ users = {
 
 @auth.verify_password
 def verifyPassword(username, password):
-	if username in users and check_password_hash(users.get(username), password): # type: ignore
+	if username in users and check_password_hash(users.get(username), password):
 		return username
+	elif username not in users:
+		abort(404, 'Not a valid user')
+	elif not check_password_hash(users.get(username), password):
+		abort(401, 'Incorrect password')
 	
 @auth.get_user_roles
 def getUserRoles(user):
@@ -27,7 +32,7 @@ def getUserRoles(user):
 
 @auth.error_handler
 def authError(status):
-	return {'message': 'You do not have access'}, status
+	return {'message': 'User does not have access privileges'}, status
 
 @app.route("/api/v1/create", methods=['POST'])
 @auth.login_required(role=['manager', 'admin'])
@@ -107,6 +112,16 @@ def showDatabase():
 		return render_template('database.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 	except Exception as e:
 		return {'message': str(e)}, 404
+
+@app.route('/ui')
+def adminUI():
+	"""
+	This is where user can access the server ui.
+	"""
+	if os.path.isfile('static/js/server-ui.js'):
+		return render_template('server-ui.html')
+	else:
+		return {'message': 'Unable to locate the server-ui.js in static/js. Make sure React build was done properly.'}, 503
 
 @app.route("/")
 def start():

@@ -1,0 +1,326 @@
+openapi: 3.0.3
+
+info:
+  title: Flask License Manager
+  description: |-
+    Flask License Manager: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking.
+    
+    Links:
+    - [Docker Hub](https://hub.docker.com/r/yjpictures/flask-license-manager)
+    - [GitHub Container Registry](https://ghcr.io/yjpictures/flask-license-manager)
+    - [GitHub Repository](https://github.com/yjpictures/flask-license-manager)
+  contact:
+    email: hello@yashj.ca
+  license:
+    name:  GPL-3.0 license
+    url: https://github.com/yjpictures/flask-license-manager#GPL-3.0-1-ov-file
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Flask License Manager
+  url: https://github.com/yjpictures/flask-license-manager#readme
+  
+tags:
+  - name: no access control
+    description: No authentication required
+  - name: client
+    description: This can be accessed by the client password or higher
+  - name: manager
+    description: This can be accessed by the manager password or higher
+  - name: admin
+    description: This can be accessed by the admin password
+    
+paths:
+
+  /:
+    get:
+      tags:
+        - no access control
+      summary: Landing page
+      description: Redirects you to the docs route
+      responses:
+        '200':
+          description: Successful redirection
+  /healthz:
+    get:
+      tags:
+        - no access control
+      summary: Health check endpoint
+      description: This route is for checking the health of the server
+      responses:
+        '200':
+          description: Server is live
+          content:
+            text:
+              schema:
+                type: string
+                example: 'OK'
+  /api/v1/docs:
+    get:
+      tags:
+        - no access control
+      summary: Documentation for the API
+      description: What you are looking at right now
+      responses:
+        '200':
+          description: Loaded the documentation webpage
+          
+  /api/v1/validate:
+    get:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - client
+      summary: Checks and provides details for an existing license
+      description: This can be used to validate a license from the database
+      parameters:
+        - in: query
+          name: _id
+          required: true
+          schema:
+            type: string
+            example: 'f12a10dac17d920d53676c8f06beabcc'
+          description: Provide with the license ID to get details from the database
+      responses:
+        '200':
+          description: Validated the license
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateResponse'
+        '404':
+          description: The license is not present in the database
+          
+  /api/v1/create:
+    post:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - manager
+      summary: Generates unique license
+      description: This can be used to create a new unique license
+      requestBody:
+        $ref: '#/components/requestBodies/CreatePayload'
+      responses:
+        '200':
+          description: Created a new license
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        '400':
+          description: Missing one or more of the "REQUIRED_CREATE" key(s) AND/OR "length" key in the json request
+        '406':
+          description: /api/v1/create requires a JSON payload
+  /api/v1/renew:
+    patch:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - manager
+      summary: Extends license validity
+      description: This can be used to renew the validity of a license
+      requestBody:
+        $ref: '#/components/requestBodies/RenewPayload'
+      responses:
+        '200':
+          description: Renewed the license
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenewResponse'
+        '404':
+          description: Unable to find a license with _id
+        '406':
+          description: /api/v1/renew requires a JSON payload
+  /api/v1/delete:
+    delete:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - manager
+      summary: Removes license
+      description: This can be used to delete a license
+      parameters:
+        - in: query
+          name: _id
+          required: true
+          schema:
+            type: string
+            example: 'f12a10dac17d920d53676c8f06beabcc'
+          description: Provide with the license ID to remove it from the database
+      responses:
+        '200':
+          description: Deleted the license
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '404':
+          description: Unable to find a license with _id
+          
+  /api/v1/get-all:
+    get:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - admin
+      summary: Retrieves all license details in JSON
+      description: This can be used to get all the license details from the database
+      responses:
+        '200':
+          description: Successfully retrieved the licenses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllResponse'
+        '404':
+          description: Unable to retrieve the licenses
+  /api/v1/database:
+    get:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - admin
+      summary: Retrieves all license details in a HTML table
+      description: This can be used to get all the license details from the database
+      responses:
+        '200':
+          description: Successfully retrieved the licenses
+          content:
+            text/html:
+              schema:
+                type: string
+                example: '<html>HTML text</html>'
+        '404':
+          description: Unable to retrieve the licenses
+          
+components:
+
+  schemas:
+    LicenseDetails:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 'f12a10dac17d920d53676c8f06beabcc'
+        company:
+          type: string
+          example: 'Walter, Sauer and Greenholt'
+        created:
+          type: string
+          example: '2023-09-29'
+        email:
+          type: string
+          example: 'Lucie_Feil@gmail.com'
+        expiry:
+          type: string
+          example: '2025-09-17'
+        machine-node:
+          type: string
+          example: 'Greece-Laptop'
+        machine-sn:
+          type: number
+          example: 91080384
+        name:
+          type: string
+          example: 'Guillermo Feeney Sr.'
+        product:
+          type: string
+          example: 'Enterprise License'
+        renew_count:
+          type: number
+          example: 1
+    ValidateResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Validated the license"
+        license-details:
+          $ref: '#/components/schemas/LicenseDetails'
+    GetAllResponse:
+      type: object
+      properties:
+        license-database:
+          type: array
+          items:
+            $ref: '#/components/schemas/LicenseDetails'
+    RenewResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Renewed the license'
+    CreateResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 'f12a10dac17d920d53676c8f06beabcc'
+        message:
+          type: string
+          example: 'Created a new license'
+    DeleteResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Deleted the license'
+    CreatePayload:
+      required:
+        - length
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Guillermo Feeney Sr."
+        email:
+          type: string
+          example: "Lucie_Feil@gmail.com"
+        company:
+          type: string
+          example: "Walter, Sauer and Greenholt"
+        product:
+          type: string
+          example: 'Enterprise License'
+        length:
+          type: number
+          example: 365
+        machine-node:
+          type: string
+          example: 'Greece-Laptop'
+        machine-sn:
+          type: number
+          example: 91080384
+    RenewPayload:
+      required:
+        - _id
+        - length
+      properties:
+        _id:
+          type: string
+          example: 'f12a10dac17d920d53676c8f06beabcc'
+        length:
+          type: number
+          example: 365
+
+  requestBodies:
+    CreatePayload:
+      description: Provide a payload with the length (in days) of license you want to create and all the REQUIRED_CREATE fields used when creating this project
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreatePayload'
+    RenewPayload:
+      description: Provide a payload with the length (in days) of license you want to renew starting from today and the license ID
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RenewPayload'
+          
+  securitySchemes:
+    BasicAuthentication:
+      type: http
+      scheme: basic
