@@ -68,6 +68,8 @@ services:
       UNIQUE_VALIDATE: email, machine-node, machine-sn
     networks:
       - backend-network
+    depends_on:
+      - database
 
   database:
     image: mongo:6.0
