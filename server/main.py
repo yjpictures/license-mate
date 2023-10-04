@@ -47,6 +47,18 @@ def create():
 	except Exception as e:
 		return {'message': str(e)}, 400
 
+@app.route("/api/v1/create-fields", methods=['GET'])
+@auth.login_required(role=['manager', 'admin'])
+def createFields():
+	"""
+	This can be used to query the list of fields required to create a new license.
+	Authorized access: 'manager', 'admin'
+	"""
+	try:
+		return {'message': 'All the fields are listed under "fields" key', 'fields': dB.required_create + ['length']}, 200
+	except Exception as e:
+		return {'message': str(e)}, 400
+
 @app.route("/api/v1/renew", methods=['PATCH'])
 @auth.login_required(role=['manager', 'admin'])
 def renew():
