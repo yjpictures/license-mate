@@ -1,12 +1,28 @@
-# What is this?
-
-`License Mate` is an open-source license manager that you can deploy easily in a variety of environments and customize to your own needs. This is made using `Flask` for `REST API` server and `MongoDB` for the database.
-
-<u>Links</u>
+# 🌐🔗
 
 - [Docker Hub](https://hub.docker.com/r/yjpictures/license-mate)
 - [GitHub Container Registry](https://ghcr.io/yjpictures/license-mate)
 - [GitHub](https://github.com/yjpictures/license-mate)
+
+
+
+# What is this?
+
+`License Mate` is an open-source software license manager that you can deploy easily in a variety of environments and customize to your own needs. This is made using `Flask` for `REST API` server, `React.js` for the server UI and `MongoDB` for the database.
+
+`License Mate` is a tool or system designed to help organizations and individuals manage the distribution, tracking, and compliance of software licenses. It serves as a central hub for controlling how software licenses are allocated, monitored, and maintained for a software. Here's a breakdown of its key functions:
+
+1. License Creation and Allocation
+2. License Tracking
+3. License Validation
+4. License Renewal
+5. License Deactivation and Removal
+
+
+
+## Who is this for?
+
+Companies and individuals who develop and distribute software products can use `License Mate` to control access and distribution of their software.
 
 
 
@@ -111,6 +127,8 @@ Coming soon! You would soon be able to install everything through an installer f
 The interactive documentation for all the REST API calls can be seen if you open the server URL on a browser. You will be able to see all the different requests you can send including the required parameters, JSON payload schema and expected output. You can even test out the requests right through the browser window.
 
 `License Mate` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes.
+
+Route `/ui` after the server URL will allow users to open Admin section, where admins can manage the licenses through the web browser.
 
 
 
