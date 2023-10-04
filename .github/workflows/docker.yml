@@ -28,6 +28,7 @@ jobs:
       - name: Build Server UI
         run: |
           cd ./server-ui
+          npm i --production
           npm run build
 
       # - name: Set up Docker Buildx
