@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - main
+    tags:
+    - 'v*'
 
 jobs:
 
@@ -56,6 +58,7 @@ jobs:
             ${{ vars.REGISTRY }}/${{ github.repository }}
             ${{ github.repository }}
           tags: |
+            type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
             type=sha
       
