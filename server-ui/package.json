@@ -11,8 +11,6 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.22.20",
-    "@babel/preset-react": "^7.22.15",
     "@babel/runtime": "^7.23.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.50.0",
@@ -25,6 +23,8 @@
   "dependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/plugin-transform-runtime": "^7.22.15",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.11",
