@@ -1,30 +1,33 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import CssBaseline from '@mui/material/CssBaseline';
+import React, { useState, useMemo } from 'react';
+import { Box, CssBaseline, useMediaQuery } from '@mui/material';;
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import TopBar from './components/TopBar';
-
-const darkTheme = createTheme({
-  palette: {
-	mode: 'dark',
-	primary: {
-	  main: '#1976d2',
-	},
-  },
-});
+import SignInSide from './views/NotLoggedIn';
+import RegularView from './views/LoggedIn';
 
 export default function App() {
 
-  return (
-	<ThemeProvider theme={darkTheme}>
-		<Box sx={{ display: 'flex' }}>
-			<CssBaseline />
-			<TopBar />
-			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-				<Toolbar />
+	const [password, setPassword] = useState();
+	const [database, setDatabase] = useState([{}]);
+	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+	const theme = useMemo(
+		() =>
+		createTheme({
+			palette: {
+			mode: prefersDarkMode ? 'dark' : 'light',
+			},
+		}),
+		[prefersDarkMode],
+	);
+
+	return (
+		<ThemeProvider theme={theme}>
+			<Box sx={{ display: 'flex' }}>
+				<CssBaseline />	
+				{ password === null || password === undefined
+					?	<SignInSide setPassword={setPassword} setDatabase={setDatabase} />
+					:	<RegularView setPassword={setPassword} database={database} setDatabase={setDatabase} />
+				}
 			</Box>
-		</Box>
-	</ThemeProvider>
-  );
+		</ThemeProvider>
+	);
 }

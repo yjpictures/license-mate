@@ -1,15 +1,16 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 
-const TopBar = () => {
+export const TopBar = ({ setPassword }) => {
 		return (
-				<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-					<Toolbar>
-						<Typography variant="h6" noWrap component="div">
-							Flask License Manager
-						</Typography>
-					</Toolbar>
-				</AppBar>
+			<AppBar>
+				<Toolbar>
+					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+						Flask License Manager
+					</Typography>
+					<Button color="inherit" onClick={() => setPassword(null)}>Logout</Button>
+				</Toolbar>
+			</AppBar>
 		);
 };
 
