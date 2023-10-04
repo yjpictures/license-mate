@@ -169,7 +169,7 @@ def handleError(e):
 @app.before_request
 def onlyJSON():
 	"""
-	This is to make sure there is a JSON payload
+	This is to make sure there is a JSON payload. Added ignore options to handle CORS options request.
 	"""
-	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew']:
+	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew'] and request.method != 'OPTIONS':
 		abort(406, '%s requires a JSON payload' % request.path)
