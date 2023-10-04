@@ -6,7 +6,7 @@ export const TopBar = ({ setPassword }) => {
 			<AppBar>
 				<Toolbar>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						Flask License Manager
+						License Mate
 					</Typography>
 					<Button color="inherit" onClick={() => setPassword(null)}>Logout</Button>
 				</Toolbar>

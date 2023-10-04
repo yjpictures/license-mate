@@ -1,23 +1,23 @@
 openapi: 3.0.3
 
 info:
-  title: Flask License Manager
+  title: License Mate
   description: |-
-    Flask License Manager: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking.
+    License Mate: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking.
     
     Links:
-    - [Docker Hub](https://hub.docker.com/r/yjpictures/flask-license-manager)
-    - [GitHub Container Registry](https://ghcr.io/yjpictures/flask-license-manager)
-    - [GitHub Repository](https://github.com/yjpictures/flask-license-manager)
+    - [Docker Hub](https://hub.docker.com/r/yjpictures/license-mate)
+    - [GitHub Container Registry](https://ghcr.io/yjpictures/license-mate)
+    - [GitHub Repository](https://github.com/yjpictures/license-mate)
   contact:
     email: hello@yashj.ca
   license:
     name:  GPL-3.0 license
-    url: https://github.com/yjpictures/flask-license-manager#GPL-3.0-1-ov-file
+    url: https://github.com/yjpictures/license-mate#GPL-3.0-1-ov-file
   version: 1.0.0
 externalDocs:
-  description: Find out more about Flask License Manager
-  url: https://github.com/yjpictures/flask-license-manager#readme
+  description: Find out more about License Mate
+  url: https://github.com/yjpictures/license-mate#readme
   
 tags:
   - name: no access control

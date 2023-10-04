@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "flask-license-manager"
+name = "license-mate"
 version = "1.0.0"
-description = "Flask based license manager that uses MongoDB"
+description = "Software License Manager: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking"
 authors = ["Yash Jain <yashjain@mail.com>"]
 license = "GPL-3.0 license"
 readme = "README.md"
