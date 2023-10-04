@@ -2,7 +2,7 @@
 
 > Docker streamlines the development lifecycle by allowing developers to work in standardized environments using local containers which provide your applications and services. Containers are great for continuous integration and continuous delivery (CI/CD) workflows.
 
-# How to use docker for flask license manager?
+# How to use docker for License Mate?
 
 ## Method 1: Dockerfile
 

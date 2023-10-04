@@ -1,12 +1,28 @@
+# 🌐🔗
+
+- [Docker Hub](https://hub.docker.com/r/yjpictures/license-mate)
+- [GitHub Container Registry](https://ghcr.io/yjpictures/license-mate)
+- [GitHub](https://github.com/yjpictures/license-mate)
+
+
+
 # What is this?
 
-`Flask License Manager` is an open-source license manager that you can deploy easily in a variety of environments and customize to your own needs. This is made using `Flask` for `REST API` server and `MongoDB` for the database.
+`License Mate` is an open-source software license manager that you can deploy easily in a variety of environments and customize to your own needs. This is made using `Flask` for `REST API` server, `React.js` for the server UI and `MongoDB` for the database.
 
-<u>Links</u>
+`License Mate` is a tool or system designed to help organizations and individuals manage the distribution, tracking, and compliance of software licenses. It serves as a central hub for controlling how software licenses are allocated, monitored, and maintained for a software. Here's a breakdown of its key functions:
 
-- [Docker Hub](https://hub.docker.com/r/yjpictures/flask-license-manager)
-- [GitHub Container Registry](https://ghcr.io/yjpictures/flask-license-manager)
-- [GitHub](https://github.com/yjpictures/flask-license-manager)
+1. License Creation and Allocation
+2. License Tracking
+3. License Validation
+4. License Renewal
+5. License Deactivation and Removal
+
+
+
+## Who is this for?
+
+Companies and individuals who develop and distribute software products can use `License Mate` to control access and distribution of their software.
 
 
 
@@ -19,12 +35,12 @@
 1. Create the following `docker compose` on your server and name it `compose.yml`.
 
 ```yml
-name: flask-license-manager
+name: license-mate
 
 services:
 
   backend:
-    image: yjpictures/flask-license-manager
+    image: yjpictures/license-mate
     container_name: backend
     ports:
       - 80:80
@@ -43,7 +59,7 @@ services:
 
 4. Run `docker compose up` in your server to pull the image and run it into a container.
 
-*Simple as that! Flask License Manager server should now be running on your `port 80`.*
+*Simple as that! License Mate server should now be running on your `port 80`.*
 
 
 ## Method 2: Self-hosted server and MongoDB
@@ -51,12 +67,12 @@ services:
 1. Create the following `docker compose` on your server and name it `compose.yml`.
 
 ```yml
-name: flask-license-manager
+name: license-mate
 
 services:
 
   backend:
-    image: yjpictures/flask-license-manager
+    image: yjpictures/license-mate
     container_name: backend
     ports:
       - 80:80
@@ -68,6 +84,8 @@ services:
       UNIQUE_VALIDATE: email, machine-node, machine-sn
     networks:
       - backend-network
+    depends_on:
+      - database
 
   database:
     image: mongo:6.0
@@ -87,7 +105,7 @@ volumes:
 
 networks:
   backend-network:
-    name: flask-license-manager
+    name: license-mate
     driver: bridge
 ```
 
@@ -95,7 +113,7 @@ networks:
 
 3. Run `docker compose up` in your server to pull the image and run it into a container.
 
-*Simple as that! Flask License Manager server should now be running on your `port 80`.*
+*Simple as that! License Mate server should now be running on your `port 80`.*
 
 
 ## Method 3: Installer files (coming soon)
@@ -108,12 +126,14 @@ Coming soon! You would soon be able to install everything through an installer f
 
 The interactive documentation for all the REST API calls can be seen if you open the server URL on a browser. You will be able to see all the different requests you can send including the required parameters, JSON payload schema and expected output. You can even test out the requests right through the browser window.
 
-`Flask License Manager` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes.
+`License Mate` uses [`HTTP Basic Auth`](https://datatracker.ietf.org/doc/html/rfc7617) for authentication purposes.
+
+Route `/ui` after the server URL will allow users to open Admin section, where admins can manage the licenses through the web browser.
 
 
 
 # Want us to take care of hosting your license manager?
 
-Depending on the size and scale, we can host, manage and customize the flask license manager to suit your needs so you can focus on the client side of things.
+Depending on the size and scale, we can host, manage and customize License Mate to suit your needs so you can focus on the client side of things.
 
 [Contact us for more information!](mailto:hello@yashj.ca)

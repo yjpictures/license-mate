@@ -65,7 +65,7 @@ export default function SignInSide({ setPassword, setDatabase }) {
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Flask License Manager | Admin
+						License Mate | Admin
 					</Typography>
 					<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 						<TextField

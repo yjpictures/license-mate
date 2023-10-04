@@ -1,4 +1,4 @@
-name: 'flask-license-manager'
+name: 'license-mate'
 
 services:
 
@@ -6,7 +6,7 @@ services:
     build:
       context: ../../
       dockerfile: docker/builds/dev-static.Dockerfile
-    image: flask-license-manager:dev-static
+    image: license-mate:dev-static
     container_name: backend
     ports:
       - '80:80'
@@ -33,5 +33,5 @@ volumes:
 
 networks:
   backend-network:
-    name: flask-license-manager
+    name: license-mate
     driver: bridge

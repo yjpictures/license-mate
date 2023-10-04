@@ -6,13 +6,13 @@
     "configurations": [
         {
             "command": "npm start",
-            "name": "Run Server UI",
+            "name": "Server UI",
             "request": "launch",
             "type": "node-terminal",
             "cwd": "${workspaceFolder}/server-ui"
         },
         {
-            "name": "Run Server",
+            "name": "Server",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -34,8 +34,8 @@
     ],
     "compounds": [
         {
-            "name": "Server All",
-            "configurations": ["Run Server UI", "Run Server"],
+            "name": "Full Stack",
+            "configurations": ["Server UI", "Server"],
             "stopAll": true
         }
     ]
