@@ -8,9 +8,9 @@ export default function RegularView({ setPassword, database, setDatabase }) {
 	return (
         <Box sx={{ display: 'flex' }}>
             <TopBar setPassword={setPassword}/>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100vw' }}>
                 <Toolbar />
-				<Box sx={{ width: '90vw' }}>
+				<Box sx={{ width: '100%' }}>
 					<Table licenses={database} setDatabase={setDatabase} />
 				</Box>
             </Box>

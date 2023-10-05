@@ -47,6 +47,18 @@ def create():
 	except Exception as e:
 		return {'message': str(e)}, 400
 
+@app.route("/api/v1/create-fields", methods=['GET'])
+@auth.login_required(role=['manager', 'admin'])
+def createFields():
+	"""
+	This can be used to query the list of fields required to create a new license.
+	Authorized access: 'manager', 'admin'
+	"""
+	try:
+		return {'message': 'All the fields are listed under "fields" key', 'fields': dB.required_create + ['length']}, 200
+	except Exception as e:
+		return {'message': str(e)}, 400
+
 @app.route("/api/v1/renew", methods=['PATCH'])
 @auth.login_required(role=['manager', 'admin'])
 def renew():
@@ -157,7 +169,7 @@ def handleError(e):
 @app.before_request
 def onlyJSON():
 	"""
-	This is to make sure there is a JSON payload
+	This is to make sure there is a JSON payload. Added ignore options to handle CORS options request.
 	"""
-	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew']:
+	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew'] and request.method != 'OPTIONS':
 		abort(406, '%s requires a JSON payload' % request.path)
