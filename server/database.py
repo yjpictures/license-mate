@@ -59,7 +59,7 @@ class MongoDB:
 		else:
 			raise Exception('Missing one or more of the "REQUIRED_CREATE" key(s) AND/OR "length" key in the json request')
 		
-	def validate(self, requestDict: dict):
+	def fetch(self, requestDict: dict):
 		required_validate = ['_id']
 		if all(name in requestDict for name in required_validate):
 			strippedDict = {key: requestDict[key] for key in required_validate}

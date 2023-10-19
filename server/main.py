@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import MongoDB
-import pandas as pd
+from datetime import date
 import os
 
 dB = MongoDB()
@@ -93,8 +93,11 @@ def validate():
 	Authorized access: 'client', 'manager', 'admin'
 	"""
 	try:
-		response = dB.validate(request.args.to_dict())
-		return {'message': 'Validated the license', 'license-details': response}, 200
+		response = dB.fetch(request.args.to_dict())
+		if date.fromisoformat(response['created']) <= date.today() <= date.fromisoformat(response['expiry']):
+			return {'message': 'License is valid', 'license-details': response}, 200
+		else:
+			return {'message': 'License is expired', 'license-details': response}, 202
 	except Exception as e:
 		return {'message': str(e)}, 404
 	
@@ -108,20 +111,6 @@ def getAll():
 	try:
 		response = dB.getAll()
 		return {'license-database': response}, 200
-	except Exception as e:
-		return {'message': str(e)}, 404
-	
-@app.route("/api/v1/database", methods=['GET'])
-@auth.login_required(role=['admin'])
-def showDatabase():
-	"""
-	This can be used to get all the licenses from database.
-	Authorized access: 'admin'
-	"""
-	try:
-		response = dB.getAll()
-		df = pd.DataFrame(response)
-		return render_template('database.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 	except Exception as e:
 		return {'message': str(e)}, 404
 
