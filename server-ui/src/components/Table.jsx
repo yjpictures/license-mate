@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IconButton, Button, TextField, Dialog, DialogActions, DialogContent, Stack, DialogTitle, Box } from '@mui/material';
 import { MaterialReactTable } from 'material-react-table';
-import { Refresh as RefreshIcon, Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { Refresh as RefreshIcon, Add as AddIcon, Delete as DeleteIcon, Autorenew as AutoRenewIcon } from '@mui/icons-material';
 import API from '../Api';
 import Toast from './Toast'
 
@@ -9,6 +9,8 @@ export const Table = ({ licenses, setDatabase }) => {
 
 	const [buttonDisable, setButttonDisable] = useState(false);
 	const [createNewOpen, setCreateNewOpen] = useState(false);
+	const [renewOpen, setRenewOpen] = useState(false);
+	const [optionalInput, setOptionalInput] = useState({});
 	const [columnsArray, setColumnsArray] = useState([]);
 	const [toastErrorOpen, setToastErrorOpen] = useState(false);
 	const [toastErrorMessage, setToastErrorMessage] = useState();
@@ -28,6 +30,30 @@ export const Table = ({ licenses, setDatabase }) => {
 		}
 		setToastErrorOpen(false);
 		setToastSuccessOpen(false);
+	};
+
+	const handleRefresh = async (showMessage) => {
+		showMessage = (typeof showMessage === 'undefined') ? false : showMessage;
+		setButttonDisable(true);
+		await API.get('/get-all')
+			.then(function (response){
+				setDatabase(response.data['license-database']);
+				if (showMessage == true) {
+					setToastSuccessMessage('Successfully refreshed the database');
+					setToastSuccessOpen(true);
+				}
+			})
+			.catch(function (error){
+				if (error.response){
+					setToastErrorMessage(error.response.data.message);
+					setToastErrorOpen(true);
+				} else if (error.request) {
+					console.error(error.request);
+				} else {
+					console.error('Error', error.message);
+				}
+			});
+		await setButttonDisable(false);
 	};
 
 	return (
@@ -61,27 +87,13 @@ export const Table = ({ licenses, setDatabase }) => {
 						await setButttonDisable(false);
 					};
 
-					return(
-						<Box sx={{ display: 'flex', flexWrap: 'nowrap' }}>
-							<IconButton
-								color="error"
-								onClick={handleDelete}
-								disabled={buttonDisable}
-							>
-								<DeleteIcon />
-							</IconButton>
-						</Box>
-				  	);
-				}}
-				renderTopToolbarCustomActions={() => {
-			
-					const handleRefresh = async () => {
+					const handleRenew = async (values) => {
 						setButttonDisable(true);
-						await API.get('/get-all')
+						await API.patch('/renew', values)
 							.then(function (response){
-								setDatabase(response.data['license-database']);
-								setToastSuccessMessage('Successfully refreshed the database');
+								setToastSuccessMessage(response.data.message);
 								setToastSuccessOpen(true);
+								handleRefresh();
 							})
 							.catch(function (error){
 								if (error.response){
@@ -93,10 +105,40 @@ export const Table = ({ licenses, setDatabase }) => {
 									console.error('Error', error.message);
 								}
 							});
+						await setOptionalInput({});
 						await setButttonDisable(false);
 					};
 
-					const handleOpenDialog = async() => {
+					return(
+						<Box sx={{ display: 'flex', flexWrap: 'nowrap' }}>
+							<IconButton
+								color="error"
+								onClick={handleDelete}
+								disabled={buttonDisable}
+							>
+								<DeleteIcon />
+							</IconButton>
+							<IconButton
+								color="primary"
+								onClick={() => {setOptionalInput({_id: row.original._id});setRenewOpen(true);}}
+								disabled={buttonDisable}
+							>
+								<AutoRenewIcon />
+							</IconButton>
+							<InputWindow
+								header='Renew License'
+								columns={['length']}
+								open={renewOpen}
+								onClose={() => setRenewOpen(false)}
+								onSubmit={handleRenew}
+								optionalArg={optionalInput}
+							/>
+						</Box>
+				  	);
+				}}
+				renderTopToolbarCustomActions={() => {
+			
+					const handleCreateNewDialog = async() => {
 						setButttonDisable(true);
 						await API.get('/create-fields')
 							.then(function (response){
@@ -144,12 +186,13 @@ export const Table = ({ licenses, setDatabase }) => {
 							<RefreshIcon />
 						</IconButton>
 						<IconButton
-							onClick={handleOpenDialog}
+							onClick={handleCreateNewDialog}
 							disabled={buttonDisable}
 						>
 							<AddIcon />
 						</IconButton>
-						<CreateNewLicenseWindow
+						<InputWindow
+							header='Create New License'
 							columns={columnsArray}
 							open={createNewOpen}
 							onClose={() => setCreateNewOpen(false)}
@@ -165,7 +208,10 @@ export const Table = ({ licenses, setDatabase }) => {
 	);
 };
 
-export const CreateNewLicenseWindow = ({ open, columns, onClose, onSubmit }) => {
+export const InputWindow = ({ open, columns, onClose, onSubmit, header, optionalArg }) => {
+
+	optionalArg = (typeof optionalArg === 'undefined') ? {} : optionalArg;
+
 	const [values, setValues] = useState(() =>
 		columns.reduce((acc, column) => {
 			acc[column ?? ''] = '';
@@ -174,14 +220,14 @@ export const CreateNewLicenseWindow = ({ open, columns, onClose, onSubmit }) => 
 	);
   
 	const handleSubmit = async () => {
-		onSubmit(values);
+		onSubmit(Object.assign({}, optionalArg, values));
 		setValues({})
 		onClose();
 	};
   
 	return (
 	  <Dialog open={open}>
-		<DialogTitle textAlign="center">Create New License</DialogTitle>
+		<DialogTitle textAlign="center">{header}</DialogTitle>
 		<DialogContent>
 			<Stack
 				sx={{
@@ -205,7 +251,7 @@ export const CreateNewLicenseWindow = ({ open, columns, onClose, onSubmit }) => 
 		</DialogContent>
 		<DialogActions sx={{ p: '1.25rem' }}>
 			<Button onClick={onClose}>Cancel</Button>
-			<Button color="primary" onClick={handleSubmit} variant="contained">Create</Button>
+			<Button color="primary" onClick={handleSubmit} variant="contained">OK</Button>
 		</DialogActions>
 	  </Dialog>
 	);
