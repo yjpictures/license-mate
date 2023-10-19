@@ -180,7 +180,7 @@ export const Table = ({ licenses, setDatabase }) => {
 					return (
 					  <div style={{ display: 'flex', gap: '0.5rem' }}>
 						<IconButton
-							onClick={handleRefresh}
+							onClick={() => handleRefresh(true)}
 							disabled={buttonDisable}
 						>
 							<RefreshIcon />
