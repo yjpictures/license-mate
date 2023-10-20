@@ -57,9 +57,9 @@ class MongoDB:
 				x = self.myCollection.insert_one(strippedDict)
 				return x.inserted_id
 		else:
-			raise Exception('Missing one or more of the "REQUIRED_CREATE" key(s) AND/OR "length" key in the json request')
+			raise Exception('Missing %s key(s) in the json request' % ', '.join(set(self.required_create + ['length']).difference(list(requestDict.keys()))))
 		
-	def validate(self, requestDict: dict):
+	def fetch(self, requestDict: dict):
 		required_validate = ['_id']
 		if all(name in requestDict for name in required_validate):
 			strippedDict = {key: requestDict[key] for key in required_validate}
@@ -86,7 +86,7 @@ class MongoDB:
 			elif x.acknowledged and x.matched_count == 0 and x.modified_count == 0:
 				raise Exception('Unable to find a license with _id %s' % requestDict['_id'])
 		else:
-			raise Exception('Missing "_id" AND/OR "length" key in the json request')
+			raise Exception('Missing %s key(s) in the json request' % ', '.join(set(required_validate).difference(list(requestDict.keys()))))
 			
 	def delete(self, requestDict: dict):
 		required_delete = ['_id']

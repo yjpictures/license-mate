@@ -5,19 +5,15 @@ info:
   description: |-
     License Mate: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking.
     
-    Links:
-    - [Docker Hub](https://hub.docker.com/r/yjpictures/license-mate)
-    - [GitHub Container Registry](https://ghcr.io/yjpictures/license-mate)
-    - [GitHub Repository](https://github.com/yjpictures/license-mate)
   contact:
-    email: hello@yashj.ca
+    email: hello@licensemate.ca
   license:
     name:  GPL-3.0 license
-    url: https://github.com/yjpictures/license-mate#GPL-3.0-1-ov-file
+    url: https://github.com/yjpictures/license-mate/blob/main/LICENSE
   version: 1.0.0
 externalDocs:
   description: Find out more about License Mate
-  url: https://github.com/yjpictures/license-mate#readme
+  url: https://www.licensemate.ca
   
 tags:
   - name: no access control
@@ -82,11 +78,17 @@ paths:
           description: Provide with the license ID to get details from the database
       responses:
         '200':
-          description: Validated the license
+          description: Found the license in the database and license is valid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidateResponse'
+                $ref: '#/components/schemas/ValidateResponseValid'
+        '202':
+          description: Found the license in the database and license is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateResponseExpired'
         '404':
           description: The license is not present in the database
           
@@ -111,6 +113,21 @@ paths:
           description: Missing one or more of the "REQUIRED_CREATE" key(s) AND/OR "length" key in the json request
         '406':
           description: /api/v1/create requires a JSON payload
+  /api/v1/create-fields:
+    get:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - manager
+      summary: List of required fields
+      description: This can be used to get a list of required fields to create a license
+      responses:
+        '200':
+          description: All the fields are listed under "fields" key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFieldsResponse'
   /api/v1/renew:
     patch:
       security:
@@ -175,24 +192,17 @@ paths:
                 $ref: '#/components/schemas/GetAllResponse'
         '404':
           description: Unable to retrieve the licenses
-  /api/v1/database:
+  /ui:
     get:
-      security:
-        - BasicAuthentication: []
       tags:
         - admin
-      summary: Retrieves all license details in a HTML table
-      description: This can be used to get all the license details from the database
+      summary: The UI for managing the licenses
+      description: Open /ui in browser to access the admin UI, you will need to login using the admin password
       responses:
         '200':
-          description: Successfully retrieved the licenses
-          content:
-            text/html:
-              schema:
-                type: string
-                example: '<html>HTML text</html>'
-        '404':
-          description: Unable to retrieve the licenses
+          description: Successfully loaded the website
+        '503':
+          description: Unable to locate the server-ui.js in static/js. Make sure React build was done properly.
           
 components:
 
@@ -230,12 +240,20 @@ components:
         renew_count:
           type: number
           example: 1
-    ValidateResponse:
+    ValidateResponseValid:
       type: object
       properties:
         message:
           type: string
-          example: "Validated the license"
+          example: "License is valid"
+        license-details:
+          $ref: '#/components/schemas/LicenseDetails'
+    ValidateResponseExpired:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "License is expired"
         license-details:
           $ref: '#/components/schemas/LicenseDetails'
     GetAllResponse:
@@ -260,6 +278,17 @@ components:
         message:
           type: string
           example: 'Created a new license'
+    CreateFieldsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "All the fields are listed under \"fields\" key"
+        fields:
+          type: array
+          items:
+            type: string
+          example: ['name', 'email', 'company', 'product', 'length', 'machine-node', 'machine-sn']
     DeleteResponse:
       type: object
       properties:

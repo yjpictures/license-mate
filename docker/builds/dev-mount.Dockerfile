@@ -1,7 +1,7 @@
 # builder base image
 FROM python:3.11 as builder
 
-LABEL maintainer="Yash Jain <hello@yashj.ca>"
+LABEL maintainer="Yash Jain <yash@licensemate.ca>"
 
 # install poetry
 RUN pip install poetry==1.6.1
