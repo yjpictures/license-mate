@@ -1,8 +1,4 @@
-# 🌐🔗
-
-- [Docker Hub](https://hub.docker.com/r/yjpictures/license-mate)
-- [GitHub Container Registry](https://ghcr.io/yjpictures/license-mate)
-- [GitHub](https://github.com/yjpictures/license-mate)
+# 🌐🔗 [licensemate.ca](https://www.licensemate.ca)
 
 
 
@@ -40,7 +36,7 @@ name: license-mate
 services:
 
   backend:
-    image: yjpictures/license-mate
+    image: yjpictures/license-mate:1.0
     container_name: backend
     ports:
       - 80:80
@@ -72,7 +68,7 @@ name: license-mate
 services:
 
   backend:
-    image: yjpictures/license-mate
+    image: yjpictures/license-mate:1.0
     container_name: backend
     ports:
       - 80:80
