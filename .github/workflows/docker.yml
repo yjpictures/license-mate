@@ -2,10 +2,8 @@ name: Docker Image Build and Deploy
 
 on:
   push:
-    branches:
-    - main
     tags:
-    - 'v*'
+    - 'v[0-9]+.[0-9]+.0'
 
 jobs:
 
@@ -60,7 +58,6 @@ jobs:
           tags: |
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
-            type=sha
       
       - name: Build and push
         uses: docker/build-push-action@v5
