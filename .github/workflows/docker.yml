@@ -77,3 +77,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ github.repository }}
           short-description: ${{ vars.DOCKER_HUB_DESCRIPTION }}
+          readme-filepath: ${{ vars.README_FILE_PATH }}
