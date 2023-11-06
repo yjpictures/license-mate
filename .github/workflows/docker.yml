@@ -57,7 +57,7 @@ jobs:
             ${{ github.repository }}
           tags: |
             type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
       
       - name: Build and push
         uses: docker/build-push-action@v5
