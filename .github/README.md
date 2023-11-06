@@ -1,5 +1,13 @@
 # 🌐🔗 [licensemate.ca](https://www.licensemate.ca)
 
+[![Version](https://img.shields.io/docker/v/yjpictures/license-mate/latest)](https://github.com/yjpictures/license-mate/pkgs/container/license-mate)
+[![License](https://img.shields.io/github/license/yjpictures/license-mate)](https://github.com/yjpictures/license-mate/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/yjpictures/license-mate)
+[![Docker Pulls](https://img.shields.io/docker/pulls/yjpictures/license-mate?logo=docker)](https://hub.docker.com/r/yjpictures/license-mate)
+[![X (formerly Twitter)](https://img.shields.io/twitter/follow/license_mate?label=X%20(formerly%20twitter))](https://twitter.com/license_mate)
+[![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/showcase/license-mate)
+[![Reddit](https://img.shields.io/badge/reddit-orange?logo=reddit&logoColor=white)](https://www.reddit.com/user/license-mate)
+
 
 
 # What is this?

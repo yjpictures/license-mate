@@ -57,7 +57,7 @@ jobs:
             ${{ github.repository }}
           tags: |
             type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
       
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -77,3 +77,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ github.repository }}
           short-description: ${{ vars.DOCKER_HUB_DESCRIPTION }}
+          readme-filepath: ${{ vars.README_FILE_PATH }}
