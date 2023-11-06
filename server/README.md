@@ -1,6 +1,6 @@
 # Preface
 
-It is preferred to use containers, kindly refer to the `readme.md` in `/docker` directory.
+It is preferred to use containers, kindly refer to the `README.md` in `/docker` directory.
 
 If you still prefer to do development on your local environment, read along. All the commands mentioned here are to be run from inside `/server` directory.
 
@@ -18,6 +18,7 @@ poetry install
 ```
 
 ## Run the flask server for development
+
 Make sure poetry environment is enabled, then run the following code
 
 ```PowerShell
