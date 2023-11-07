@@ -156,7 +156,7 @@ paths:
       tags:
         - manager
       summary: Update license details
-      description: This can be used to renew the validity of a license
+      description: This can be used to update the fields of an existing license
       requestBody:
         $ref: '#/components/requestBodies/UpdatePayload'
       responses:
