@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: License Mate
   description: |-
-    License Mate: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking.
+    Software License Manager: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking.
     
   contact:
     email: hello@licensemate.ca
@@ -90,7 +90,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ValidateResponseExpired'
         '404':
-          description: The license is not present in the database
+          description: Unable to find a license with _id
           
   /api/v1/create:
     post:
@@ -109,7 +109,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateResponse'
-        '400':
+        '404':
           description: Missing one or more of the "REQUIRED_CREATE" key(s) AND/OR "length" key in the json request
         '406':
           description: /api/v1/create requires a JSON payload
@@ -149,6 +149,27 @@ paths:
           description: Unable to find a license with _id
         '406':
           description: /api/v1/renew requires a JSON payload
+  /api/v1/update:
+    patch:
+      security:
+        - BasicAuthentication: []
+      tags:
+        - manager
+      summary: Update license details
+      description: This can be used to renew the validity of a license
+      requestBody:
+        $ref: '#/components/requestBodies/UpdatePayload'
+      responses:
+        '200':
+          description: Renewed the license
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'
+        '404':
+          description: Unable to find a license with _id
+        '406':
+          description: /api/v1/update requires a JSON payload
   /api/v1/delete:
     delete:
       security:
@@ -269,6 +290,12 @@ components:
         message:
           type: string
           example: 'Renewed the license'
+    UpdateResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Updated the license'
     CreateResponse:
       type: object
       properties:
@@ -332,6 +359,20 @@ components:
         length:
           type: number
           example: 365
+    UpdatePayload:
+      required:
+        - _id
+      properties:
+        _id:
+          type: string
+          example: 'f12a10dac17d920d53676c8f06beabcc'
+        email:
+          type: string
+          example: "Lucie_Feil@gmail.com"
+        product:
+          type: string
+          example: 'Enterprise License'
+        
 
   requestBodies:
     CreatePayload:
@@ -348,6 +389,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RenewPayload'
+    UpdatePayload:
+      description: Provide a payload with the license ID and the REQUIRED_CREATE fields you wish to update
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdatePayload'
           
   securitySchemes:
     BasicAuthentication:
