@@ -59,7 +59,7 @@ export const Table = ({ licenses, setDatabase }) => {
 	return (
 		<>	
 			<MaterialReactTable 
-				columns={(licenses.length > 0) ? columns : []}
+				columns={columns}
 				data={licenses}
 				enableRowActions
 				enableColumnActions={false}
