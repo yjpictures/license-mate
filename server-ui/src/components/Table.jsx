@@ -17,13 +17,13 @@ export const Table = ({ licenses, setDatabase }) => {
 	const [toastSuccessOpen, setToastSuccessOpen] = useState(true);
 	const [toastSuccessMessage, setToastSuccessMessage] = useState('Successfully retrieved the database');
 
-	const columns = Object.keys(licenses[0]).map((key)=>{
+	const columns = (licenses.length > 0) ? Object.keys(licenses[0]).map((key) => {
 		return {
 			accessorKey: key,
 			header: key
 		}
-	});
-  
+	}) : [];
+
 	const handleToastClose = (reason) => {
 		if (reason === 'clickaway') {
 			return;
@@ -59,7 +59,7 @@ export const Table = ({ licenses, setDatabase }) => {
 	return (
 		<>	
 			<MaterialReactTable 
-				columns={columns}
+				columns={(licenses.length > 0) ? columns : []}
 				data={licenses}
 				enableRowActions
 				enableColumnActions={false}
