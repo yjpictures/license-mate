@@ -69,7 +69,7 @@ class MongoDB:
 			elif len(check) == 1:
 				return check[0]
 			else:
-				raise Exception('The license (%s) is not present in the database' % requestDict['_id'])
+				raise Exception('Unable to find a license with _id %s' % requestDict['_id'])
 		else:
 			raise Exception('Missing "_id" parameter in the query')
 		
@@ -85,8 +85,31 @@ class MongoDB:
 				raise Exception('Expiry date for the license is already set to %d days from now' % int(requestDict['length']))
 			elif x.acknowledged and x.matched_count == 0 and x.modified_count == 0:
 				raise Exception('Unable to find a license with _id %s' % requestDict['_id'])
+			else:
+				raise Exception('Unable to reach the MongoDB server')
 		else:
 			raise Exception('Missing %s key(s) in the json request' % ', '.join(set(required_validate).difference(list(requestDict.keys()))))
+
+	def update(self, requestDict: dict):
+		required_update = ['_id']
+		if all(name in requestDict for name in required_update):
+			if list(requestDict.keys()) != ['_id']:
+				if all(name in self.required_create + required_update for name in requestDict):
+					x = self.myCollection.update_one({'_id': requestDict['_id']}, { '$set': {k:v for k,v in requestDict.items() if k not in required_update}})
+					if x.acknowledged and x.matched_count == 1 and x.modified_count == 1:
+						return True
+					elif x.acknowledged and x.matched_count == 1 and x.modified_count == 0:
+						raise Exception('The provided details already match the existing data, and no changes were made')
+					elif x.acknowledged and x.matched_count == 0 and x.modified_count == 0:
+						raise Exception('Unable to find a license with _id %s' % requestDict['_id'])
+					else:
+						raise Exception('Unable to reach the MongoDB server')
+				else:
+					raise Exception('The payload contains unknown keys. Please refer to the /create-fields response to identify the allowed keys for this operation.')
+			else:
+				raise Exception('Missing key(s) to be updated in the json request')
+		else:
+			raise Exception('Missing "_id" key in the json request')
 			
 	def delete(self, requestDict: dict):
 		required_delete = ['_id']

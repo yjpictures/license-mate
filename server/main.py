@@ -72,6 +72,19 @@ def renew():
 	except Exception as e:
 		return {'message': str(e)}, 404
 
+@app.route("/api/v1/update", methods=['PATCH'])
+@auth.login_required(role=['manager', 'admin'])
+def update():
+	"""
+	This can be used to update license field(s).
+	Authorized access: 'manager', 'admin'
+	"""
+	try:
+		dB.update(request.get_json())
+		return {'message': 'Updated the license'}, 200
+	except Exception as e:
+		return {'message': str(e)}, 404
+
 @app.route("/api/v1/delete", methods=['DELETE'])
 @auth.login_required(role=['manager', 'admin'])
 def delete():
@@ -160,5 +173,5 @@ def onlyJSON():
 	"""
 	This is to make sure there is a JSON payload. Added ignore options to handle CORS options request.
 	"""
-	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew'] and request.method != 'OPTIONS':
+	if not request.is_json and request.path in ['/api/v1/create', '/api/v1/renew', '/api/v1/update'] and request.method != 'OPTIONS':
 		abort(406, '%s requires a JSON payload' % request.path)
