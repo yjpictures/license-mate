@@ -17,10 +17,12 @@ export const Table = ({ licenses, setDatabase }) => {
 	const [toastSuccessOpen, setToastSuccessOpen] = useState(true);
 	const [toastSuccessMessage, setToastSuccessMessage] = useState('Successfully retrieved the database');
 
+	const nonEditColumns = ['_id', 'created', 'expiry', 'renew_count'];
 	const columns = (licenses.length > 0) ? Object.keys(licenses[0]).map((key) => {
 		return {
 			accessorKey: key,
-			header: key
+			header: key,
+			enableEditing: nonEditColumns.includes(key) ? false : true
 		}
 	}) : [];
 
@@ -56,12 +58,41 @@ export const Table = ({ licenses, setDatabase }) => {
 		await setButttonDisable(false);
 	};
 
+	const handleUpdateLicenseDetails = async (cell, value) => {
+		setButttonDisable(true);
+		await API.patch('/update', {
+			_id: cell.row.original._id,
+			[cell.column.id]: value
+		})
+			.then(function (response){
+				setToastSuccessMessage(response.data.message);
+				setToastSuccessOpen(true);
+				handleRefresh();
+			})
+			.catch(function (error){
+				if (error.response){
+					setToastErrorMessage(error.response.data.message);
+					setToastErrorOpen(true);
+				} else if (error.request) {
+					console.error(error.request);
+				} else {
+					console.error('Error', error.message);
+				}
+			});
+		await setButttonDisable(false);
+	};
+
 	return (
 		<>	
 			<MaterialReactTable 
 				columns={columns}
 				data={licenses}
 				enableRowActions
+				editingMode='cell'
+				enableEditing
+				muiTableBodyCellEditTextFieldProps={({ cell }) => ({
+					onBlur: (event) => handleUpdateLicenseDetails(cell, event.target.value)
+				})}
 				enableColumnActions={false}
 				renderRowActions={({ row }) => {
 
