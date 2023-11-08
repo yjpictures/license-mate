@@ -44,7 +44,7 @@ name: license-mate
 services:
 
   backend:
-    image: yjpictures/license-mate:1.0
+    image: yjpictures/license-mate:1.1
     container_name: backend
     ports:
       - 80:80
@@ -76,7 +76,7 @@ name: license-mate
 services:
 
   backend:
-    image: yjpictures/license-mate:1.0
+    image: yjpictures/license-mate:1.1
     container_name: backend
     ports:
       - 80:80

@@ -10,7 +10,7 @@ info:
   license:
     name:  GPL-3.0 license
     url: https://github.com/yjpictures/license-mate/blob/main/LICENSE
-  version: 1.0.0
+  version: 1.1.0
 externalDocs:
   description: Find out more about License Mate
   url: https://www.licensemate.ca

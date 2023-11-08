@@ -1,6 +1,6 @@
 {
   "name": "license-mate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking",
   "main": "index.js",
   "scripts": {

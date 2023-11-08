@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "license-mate"
-version = "1.0.0"
+version = "1.1.0"
 description = "Software License Manager: Docker deployable Flask REST API server with MongoDB database, simplifying software license management for easy integration and efficient tracking"
 authors = ["Yash Jain <yash@licensemate.ca>"]
 license = "GPL-3.0 license"
