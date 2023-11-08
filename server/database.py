@@ -5,6 +5,12 @@ import codecs
 from dotenv import load_dotenv
 from datetime import date, timedelta
 
+def lenCheck(value):
+	try:
+		return int(value)
+	except ValueError:
+		raise Exception('License length\'s value (%s) is not a number' % value)
+
 class MongoDB:
 
 	def __init__(self):
@@ -38,7 +44,7 @@ class MongoDB:
 		if all(name in requestDict for name in self.required_create + ['length']):
 			strippedDict = {key: requestDict[key] for key in self.required_create}
 			today = date.today()
-			future = today + timedelta(int(requestDict['length']))
+			future = today + timedelta(lenCheck(requestDict['length']))
 			strippedDict['_id'] = codecs.encode(os.urandom(int(self.licenseLength/2)), 'hex').decode()
 			strippedDict['created'] = date.isoformat(today)
 			strippedDict['expiry'] = date.isoformat(future)
@@ -77,7 +83,7 @@ class MongoDB:
 		required_validate = ['_id', 'length']
 		if all(name in requestDict for name in required_validate):
 			today = date.today()
-			future = today + timedelta(int(requestDict['length']))
+			future = today + timedelta(lenCheck(requestDict['length']))
 			x = self.myCollection.update_one({'_id': requestDict['_id']}, { '$set': {'expiry': date.isoformat(future)}, '$inc': {'renew_count': 1}})
 			if x.acknowledged and x.matched_count == 1 and x.modified_count == 1:
 				return True
