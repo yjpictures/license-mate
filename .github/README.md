@@ -1,4 +1,4 @@
-# 🌐🔗 [licensemate.ca](https://www.licensemate.ca)
+# 🌐🔗 [licensemate.ca](https://licensemate.effectuatecorp.com)
 
 [![Version](https://img.shields.io/docker/v/yjpictures/license-mate/latest)](https://github.com/yjpictures/license-mate/pkgs/container/license-mate)
 [![License](https://img.shields.io/github/license/yjpictures/license-mate)](https://github.com/yjpictures/license-mate/blob/master/LICENSE)
@@ -140,4 +140,4 @@ Route `/ui` after the server URL will allow users to open Admin section, where a
 
 Depending on the size and scale, we can host, manage and customize License Mate to suit your needs so you can focus on the client side of things.
 
-[Contact us for more information!](mailto:hello@licensemate.ca)
+[Contact us for more information!](mailto:licensemate@effectuatecorp.com)
