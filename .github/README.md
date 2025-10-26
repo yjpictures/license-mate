@@ -1,4 +1,4 @@
-# 🌐🔗 [licensemate.ca](https://licensemate.effectuatecorp.com)
+# 🌐🔗 [licensemate.effectuatecorp.com](https://licensemate.effectuatecorp.com)
 
 [![Version](https://img.shields.io/docker/v/yjpictures/license-mate/latest)](https://github.com/yjpictures/license-mate/pkgs/container/license-mate)
 [![License](https://img.shields.io/github/license/yjpictures/license-mate)](https://github.com/yjpictures/license-mate/blob/master/LICENSE)
